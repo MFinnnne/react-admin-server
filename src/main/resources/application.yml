@@ -60,3 +60,5 @@ mybatis:
   type-aliases-package: com.df.react.pojo
 server:
   port: 5000
+
+
