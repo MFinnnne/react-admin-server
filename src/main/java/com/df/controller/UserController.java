@@ -1,10 +1,10 @@
-package com.df.react.controller;
+package com.df.controller;
 
 
-import com.df.react.config.StatusCode;
-import com.df.react.pojo.RestResult;
-import com.df.react.pojo.User;
-import com.df.react.service.UserService;
+import com.df.config.StatusCode;
+import com.df.pojo.RestResult;
+import com.df.pojo.User;
+import com.df.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +20,16 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(path = "/api/login", method = RequestMethod.POST)
-    @ResponseBody
     public RestResult<User> login(@RequestBody User user) {
         User findUser = userService.findOneByName(user.getName());
+        System.out.println(findUser.toString());
+
         if (findUser.getPassword().equals(user.getPassword())) {
             return new RestResult<>(true, StatusCode.SUCCESS, findUser);
         }
         return new RestResult<>(false,StatusCode.FAILED);
     }
+
 
     @GetMapping("/hello")
     public String hello() {

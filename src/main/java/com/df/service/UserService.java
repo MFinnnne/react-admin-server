@@ -1,7 +1,7 @@
-package com.df.react.service;
+package com.df.service;
 
-import com.df.react.mapper.UserMapper;
-import com.df.react.pojo.User;
+import com.df.mapper.UserMapper;
+import com.df.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.df.react.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.df.react.pojo.User">
+<mapper namespace="com.df.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.df.pojo.User">
     <!--@mbg.generated-->
     <!--@Table `user`-->
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -24,12 +24,12 @@
     delete from `user`
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.df.react.pojo.User" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `user` (`password`, `name`)
     values (#{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.df.react.pojo.User" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `user`
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -49,7 +49,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.df.react.pojo.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.df.pojo.User">
     <!--@mbg.generated-->
     update `user`
     <set>
@@ -62,7 +62,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.df.react.pojo.User">
+  <update id="updateByPrimaryKey" parameterType="com.df.pojo.User">
     <!--@mbg.generated-->
     update `user`
     set `password` = #{password,jdbcType=VARCHAR},
