@@ -1,8 +1,11 @@
 package com.df.service;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+
 import com.df.mapper.CategoryMapper;
 import com.df.pojo.Category;
 
@@ -20,7 +23,11 @@ public class CategoryService {
 
     public int insert(Category record) {
 
-        return categoryMapper.insert(record);
+        try {
+            return categoryMapper.insert(record);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 
