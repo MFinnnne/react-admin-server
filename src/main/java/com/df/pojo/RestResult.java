@@ -1,6 +1,6 @@
-package com.df.react.pojo;
+package com.df.pojo;
 
-import com.df.react.config.StatusCode;
+import com.df.config.StatusCode;
 
 /**
  * @author ：MFine
@@ -11,7 +11,7 @@ public class RestResult<T> {
 
     private boolean flag;
     private Integer status;
-    private T data;
+    private Object data;
 
     public RestResult(boolean flag, StatusCode statusCode, T data) {
         this.flag = flag;
@@ -53,11 +53,11 @@ public class RestResult<T> {
         this.status = status;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

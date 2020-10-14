@@ -57,7 +57,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.df.react.pojo
+  type-aliases-package: com.df.pojo
 server:
   port: 5000
 
