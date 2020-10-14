@@ -9,6 +9,9 @@ import javax.annotation.Resource;
 import com.df.mapper.CategoryMapper;
 import com.df.pojo.Category;
 
+/**
+ * @author MFine
+ */
 @Service
 public class CategoryService {
 
@@ -21,12 +24,13 @@ public class CategoryService {
     }
 
 
-    public int insert(Category record) {
 
-        try {
+    public int insert(Category record) {
+        List<Integer> id = findIdByName(record.getName());
+        if (id != null) {
+            return -1;
+        } else {
             return categoryMapper.insert(record);
-        } catch (Exception e) {
-            return 0;
         }
     }
 
@@ -50,9 +54,24 @@ public class CategoryService {
         return categoryMapper.updateByPrimaryKey(record);
     }
 
+    /**
+     * @param parentId 父id
+     * @return 品类数组
+     */
     public List<Category> findAllByParentId(String parentId) {
         return categoryMapper.findAllByParentId(parentId);
     }
+
+    /**
+     * Find id by name list.
+     *
+     * @param name the name
+     * @return the list
+     */
+    public List<Integer> findIdByName(String name) {
+        return categoryMapper.findIdByName(name);
+    }
+
 
 }
 
