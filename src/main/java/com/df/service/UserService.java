@@ -45,10 +45,18 @@ public class UserService {
         return userMapper.updateByPrimaryKey(record);
     }
 
+    /**
+     * @param name 用户名
+     * @return 找到的用户名
+     */
     public User findOneByName(String name) {
         return userMapper.findOneByName(name);
     }
 
+    /**
+     * @param name 用户名
+     * @return id
+     */
     public Integer findOneIdByName(String name) {
         return userMapper.findOneIdByName(name);
     }

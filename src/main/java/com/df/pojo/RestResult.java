@@ -11,11 +11,13 @@ public class RestResult<T> {
 
     private boolean flag;
     private Integer status;
-    private Object data;
+    private String message;
+    private T data;
 
-    public RestResult(boolean flag, StatusCode statusCode, T data) {
+    public RestResult(boolean flag, StatusCode status, String message, T data) {
         this.flag = flag;
-        setStatus(statusCode);
+         this.setStatus(status);
+        this.message = message;
         this.data = data;
     }
 
@@ -53,11 +55,19 @@ public class RestResult<T> {
         this.status = status;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

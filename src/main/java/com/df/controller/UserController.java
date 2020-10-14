@@ -24,7 +24,7 @@ public class UserController {
     public RestResult<User> login(@RequestBody User user) {
         User findUser = userService.findOneByName(user.getName());
         if (findUser.getPassword().equals(user.getPassword())) {
-            return new RestResult<>(true, StatusCode.SUCCESS, new User(findUser.getId(), null, findUser.getName()));
+            return new RestResult<>(true, StatusCode.SUCCESS, "", new User(findUser.getId(), null, findUser.getName()));
         }
         return new RestResult<>(false, StatusCode.FAILED);
     }

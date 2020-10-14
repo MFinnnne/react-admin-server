@@ -25,14 +25,14 @@ public class CategoryController {
     RestResult<List<Category>> findCategoryById(@PathVariable String parentId) {
         List<Category> categories = categoryService.findAllByParentId(parentId);
         if (categories.size() > 0) {
-            return new RestResult<>(true, StatusCode.SUCCESS, categories);
+            return new RestResult<>(true, StatusCode.SUCCESS, "", categories);
         }
-        return new RestResult<>(true, StatusCode.FAILED, categories);
+        return new RestResult<>(true, StatusCode.FAILED, "", categories);
     }
 
     @PostMapping(path = "/add")
-    RestResult<Category> addCategory(@RequestBody Category category){
+    RestResult<Category> addCategory(@RequestBody Category category) {
         int isSuccess = categoryService.insert(category);
-        return new RestResult<>(isSuccess == 1, isSuccess == 1 ? StatusCode.SUCCESS : StatusCode.FAILED, category);
+        return new RestResult<>(isSuccess >= 0, isSuccess >= 0 ? StatusCode.SUCCESS : StatusCode.FAILED, isSuccess >= 0 ? "" : "该品类已存在", category);
     }
 }
