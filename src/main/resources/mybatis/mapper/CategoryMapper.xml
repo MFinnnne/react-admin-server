@@ -90,7 +90,7 @@
         from category
         <where>
             <if test="parentId != null and parentId != ''">
-              and parentId=#{parentId,jdbcType=VARCHAR}
+              and parent_id=#{parentId,jdbcType=VARCHAR}
             </if>
         </where>
     </select>
