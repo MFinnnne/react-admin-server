@@ -27,7 +27,7 @@ public class CategoryService {
 
     public int insert(Category record) {
         List<Integer> id = findIdByName(record.getName());
-        if (id != null) {
+        if (id.size() != 0) {
             return -1;
         } else {
             return categoryMapper.insert(record);

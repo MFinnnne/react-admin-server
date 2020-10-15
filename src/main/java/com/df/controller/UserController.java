@@ -20,6 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public RestResult<User> login(@RequestBody User user) {
         User findUser = userService.findOneByName(user.getName());

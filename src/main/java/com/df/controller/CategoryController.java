@@ -35,4 +35,10 @@ public class CategoryController {
         int isSuccess = categoryService.insert(category);
         return new RestResult<>(isSuccess >= 0, isSuccess >= 0 ? StatusCode.SUCCESS : StatusCode.FAILED, isSuccess >= 0 ? "" : "该品类已存在", category);
     }
+
+    @PutMapping(path = "/update")
+    RestResult<Category> updateCategory(@RequestBody Category category){
+
+        return null;
+    }
 }
