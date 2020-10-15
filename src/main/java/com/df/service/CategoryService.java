@@ -24,7 +24,6 @@ public class CategoryService {
     }
 
 
-
     public int insert(Category record) {
         List<Integer> id = findIdByName(record.getName());
         if (id.size() != 0) {
@@ -74,6 +73,7 @@ public class CategoryService {
 
 
 }
+
 
 
 
