@@ -8,10 +8,11 @@
     <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, parent_id, `name`, category_name
+    id, parent_id, `name`, category_name, parent_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -27,34 +28,40 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.Category" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into category (parent_id, `name`, category_name
-      )
-    values (#{parentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}
-      )
+    insert into category (parent_id, `name`, category_name, 
+      parent_name)
+    values (#{parentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+      #{parentName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.Category" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="parentId != null and parentId != ''">
+      <if test="parentId != null">
         parent_id,
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         `name`,
       </if>
-      <if test="categoryName != null and categoryName != ''">
+      <if test="categoryName != null">
         category_name,
+      </if>
+      <if test="parentName != null">
+        parent_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="parentId != null and parentId != ''">
+      <if test="parentId != null">
         #{parentId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="categoryName != null and categoryName != ''">
+      <if test="categoryName != null">
         #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentName != null">
+        #{parentName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -62,14 +69,17 @@
     <!--@mbg.generated-->
     update category
     <set>
-      <if test="parentId != null and parentId != ''">
+      <if test="parentId != null">
         parent_id = #{parentId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="categoryName != null and categoryName != ''">
+      <if test="categoryName != null">
         category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentName != null">
+        parent_name = #{parentName,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -79,7 +89,8 @@
     update category
     set parent_id = #{parentId,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
-      category_name = #{categoryName,jdbcType=VARCHAR}
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      parent_name = #{parentName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

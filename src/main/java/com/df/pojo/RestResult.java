@@ -16,12 +16,12 @@ public class RestResult<T> {
 
     public RestResult(boolean flag, StatusCode status, String message, T data) {
         this.flag = flag;
-         this.setStatus(status);
+        this.setStatusValue(status);
         this.message = message;
         this.data = data;
     }
 
-    private void setStatus(StatusCode status) {
+    private void setStatusValue(StatusCode status) {
         switch (status) {
             case FAILED:
                 this.status = -1;
@@ -36,7 +36,7 @@ public class RestResult<T> {
 
     public RestResult(boolean flag, StatusCode status) {
         this.flag = flag;
-        this.setStatus(status);
+        this.setStatusValue(status);
     }
 
     public boolean isFlag() {
@@ -47,11 +47,7 @@ public class RestResult<T> {
         this.flag = flag;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
+    public void setStatusValue(Integer status) {
         this.status = status;
     }
 
@@ -61,6 +57,14 @@ public class RestResult<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getMessage() {
