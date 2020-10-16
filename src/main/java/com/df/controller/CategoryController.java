@@ -21,6 +21,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping(path = "/list/{parentId}")
     RestResult<List<Category>> findCategoryById(@PathVariable String parentId) {
         List<Category> categories = categoryService.findAllByParentId(parentId);
