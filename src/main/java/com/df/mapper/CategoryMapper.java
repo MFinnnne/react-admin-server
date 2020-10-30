@@ -1,13 +1,9 @@
 package com.df.mapper;
 
-import com.df.pojo.Category;import org.apache.ibatis.annotations.Param;import java.util.List;
+import com.df.pojo.Category;
+import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
 
-/**
- * @author MFine
- * @version 1.0
- * @date 2020/10/15 22:59
- **/
-
+@Mapper
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -36,4 +32,6 @@ public interface CategoryMapper {
      * @return id
      */
     List<Integer> findIdByName(@Param("name") String name);
+
+    int updateByName(@Param("updated") Category updated, @Param("name") String name);
 }

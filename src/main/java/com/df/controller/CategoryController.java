@@ -38,8 +38,9 @@ public class CategoryController {
     }
 
     @PutMapping(path = "/update")
-    RestResult<Category> updateCategory(@RequestBody Category category){
+    RestResult<Category> updateCategory(@RequestBody Category category) {
+        int isSuccess = categoryService.updateByName(category, category.getName());
+        return new RestResult<>(isSuccess >= 0, isSuccess >= 0 ? StatusCode.SUCCESS : StatusCode.FAILED, isSuccess >= 0 ? "" : "该品类不存在", category);
 
-        return null;
     }
 }

@@ -71,8 +71,13 @@ public class CategoryService {
         return categoryMapper.findIdByName(name);
     }
 
+    public int updateByName(Category updated, String name) {
+        return categoryMapper.updateByName(updated, name);
+    }
+
 
 }
+
 
 
 
