@@ -1,7 +1,10 @@
 package com.df.mapper;
 
 import com.df.pojo.Category;
-import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
@@ -34,4 +37,10 @@ public interface CategoryMapper {
     List<Integer> findIdByName(@Param("name") String name);
 
     int updateByName(@Param("updated") Category updated, @Param("name") String name);
+
+    int updateNameByName(@Param("updatedName") String updatedName, @Param("name") String name);
+
+    int updateNameById(@Param("updatedName") String updatedName, @Param("id") Integer id);
+
+
 }

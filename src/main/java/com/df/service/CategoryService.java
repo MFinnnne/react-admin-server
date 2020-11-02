@@ -75,6 +75,20 @@ public class CategoryService {
         return categoryMapper.updateByName(updated, name);
     }
 
+	public int updateNameByName(String updatedName,String name){
+		 return categoryMapper.updateNameByName(updatedName,name);
+	}
+
+	public int updateNameById(String updatedName,Integer id){
+		 return categoryMapper.updateNameById(updatedName,id);
+	}
+
+
+
+
+
+
+
 
 }
 
