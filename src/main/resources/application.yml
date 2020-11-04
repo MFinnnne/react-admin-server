@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
@@ -60,5 +65,7 @@ mybatis:
   type-aliases-package: com.df.pojo
 server:
   port: 5000
+
+
 
 

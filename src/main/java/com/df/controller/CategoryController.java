@@ -41,6 +41,5 @@ public class CategoryController {
     RestResult<Category> updateCategory(@RequestBody Category category) {
         int isSuccess = categoryService.updateNameById(category.getName(), category.getId());
         return new RestResult<>(isSuccess >= 0, isSuccess >= 0 ? StatusCode.SUCCESS : StatusCode.FAILED, isSuccess >= 0 ? "" : "该品类不存在", category);
-
     }
 }
