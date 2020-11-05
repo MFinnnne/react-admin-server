@@ -14,12 +14,31 @@ import java.util.stream.Stream;
 @Service
 public interface StorageService {
 
+    /**
+     * Init.
+     */
     void init();
 
+    /**
+     * Store.
+     *
+     * @param file the file
+     */
     void store(MultipartFile file);
 
+    /**
+     * Load all stream.
+     *
+     * @return the stream
+     */
     Stream<Path> loadAll();
 
+    /**
+     * Load path.
+     *
+     * @param filename the filename
+     * @return the path
+     */
     Path load(String filename);
 
     /**
@@ -28,5 +47,8 @@ public interface StorageService {
      */
     Resource loadAsResource(String filename);
 
+    /**
+     * Delete all.
+     */
     void deleteAll();
 }
