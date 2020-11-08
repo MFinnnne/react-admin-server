@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * @date 2020/11/4 20:37
  **/
 @RestController
-@RequestMapping("/api/products")
 public class FileUpLoadController {
 
     @Autowired
