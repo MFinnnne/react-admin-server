@@ -1,4 +1,6 @@
-package com.df.excp;
+package com.df.uploadfiles.storage;
+
+import com.df.uploadfiles.storage.StorageException;
 
 /**
  * @author MFine

@@ -1,4 +1,4 @@
-package com.df.config;
+package com.df.uploadfiles.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("storage")
 public class StorageProperties {
 
-    private String location = "upload";
+    private String location = "upload-dir";
 
     public String getLocation() {
         return location;

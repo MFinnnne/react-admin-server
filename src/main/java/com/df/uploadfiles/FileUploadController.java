@@ -1,12 +1,12 @@
-package com.df.controller;
+package com.df.uploadfiles;
 
-import com.df.excp.StorageFileNotFoundException;
-import com.df.service.StorageService;
+import com.df.uploadfiles.storage.StorageFileNotFoundException;
+import com.df.uploadfiles.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,33 +14,39 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
+
 
 /**
  * @author MFine
- * @version 1.0
- * @date 2020/11/4 20:37
- **/
-@Controller
-public class FileUpLoadController {
+ */
+@RestController
+public class FileUploadController {
+
+    private final StorageService storageService;
 
     @Autowired
-    private StorageService storageService;
+    public FileUploadController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(FileUpLoadController.class,
+    public ResponseEntity<List<String>> listUploadedFiles() throws IOException {
+
+        List<String> files = storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
 
-        return "uploadForm";
+        return ResponseEntity.ok().body(files);
+
     }
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile( @PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
 
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

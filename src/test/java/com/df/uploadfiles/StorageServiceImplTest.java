@@ -1,7 +1,8 @@
-package com.df.service.impl;
+package com.df.uploadfiles;
 
-import com.df.config.StorageProperties;
-import com.df.excp.StorageException;
+import com.df.uploadfiles.storage.StorageProperties;
+import com.df.uploadfiles.storage.StorageException;
+import com.df.uploadfiles.storage.StorageServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
