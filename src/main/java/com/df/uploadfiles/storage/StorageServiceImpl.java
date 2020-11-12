@@ -1,9 +1,5 @@
-package com.df.service.impl;
+package com.df.uploadfiles.storage;
 
-import com.df.config.StorageProperties;
-import com.df.excp.StorageException;
-import com.df.excp.StorageFileNotFoundException;
-import com.df.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

@@ -1,6 +1,6 @@
-package com.df.service.impl;
+package com.df.uploadfiles;
 
-import com.df.service.StorageService;
+import com.df.uploadfiles.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
 
 /**
  * @author MFine
@@ -38,7 +39,7 @@ public class FileUploadIntegrationTests {
     private int port;
 
     @Test
-    public void shouldUploadFile() throws Exception{
+    public void shouldUploadFile() throws Exception {
 
         ClassPathResource resource = new ClassPathResource("testupload.txt", getClass());
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -52,5 +53,16 @@ public class FileUploadIntegrationTests {
         then(storageService).should().store(any(MultipartFile.class));
     }
 
+    @Test
+    public void shouldDownloadFile() throws Exception {
+        ClassPathResource resource = new ClassPathResource("testupload.txt", getClass());
+        given(this.storageService.loadAsResource("testupload.txt")).willReturn(resource);
+        ResponseEntity<String> response = this.restTemplate.getForEntity("/files/{filename}", String.class
+                , "testupload.txt");
+        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_DISPOSITION))
+                .isEqualTo("attachment; filename=\"testupload.txt\"");
+        assertThat(response.getBody()).isEqualTo("Spring Framework");
+    }
 
 }

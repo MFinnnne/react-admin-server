@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "desc of class")
 @RestController
-@RequestMapping("/api/user/")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
