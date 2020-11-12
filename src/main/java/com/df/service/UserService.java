@@ -4,6 +4,7 @@ import java.util.List;
 import com.df.mapper.UserMapper;
 import com.df.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,7 +50,7 @@ public class UserService {
      * @param name 用户名
      * @return 找到的用户名
      */
-    public User findOneByName(String name) {
+    public User findOneByName(@NonNull String name) {
         return userMapper.findOneByName(name);
     }
 

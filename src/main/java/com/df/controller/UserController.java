@@ -5,9 +5,11 @@ import com.df.config.StatusCode;
 import com.df.pojo.RestResult;
 import com.df.pojo.User;
 import com.df.service.UserService;
+import com.df.uploadfiles.storage.StorageFileNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,5 +40,9 @@ public class UserController {
     @GetMapping("/hello")
     public String hello() {
         return "hello";
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleUserControllerException(Exception exc) {
+        return ResponseEntity.notFound().build();
     }
 }

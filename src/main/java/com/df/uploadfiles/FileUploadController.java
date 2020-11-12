@@ -24,12 +24,8 @@ import java.util.stream.Collectors;
 @RestController
 public class FileUploadController {
 
-    private final StorageService storageService;
-
     @Autowired
-    public FileUploadController(StorageService storageService) {
-        this.storageService = storageService;
-    }
+    private StorageService storageService;
 
     @GetMapping("/")
 
@@ -54,14 +50,9 @@ public class FileUploadController {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/";
+        return ResponseEntity.ok().body("store success");
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

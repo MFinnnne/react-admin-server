@@ -3,6 +3,7 @@ package com.df.uploadfiles.storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
  * @version 1.0
  * @date 2020/11/4 20:47
  **/
+@Service
 public class StorageServiceImpl implements StorageService {
 
     private final Path rootLocation;
