@@ -41,6 +41,7 @@ public class UserController {
     public String hello() {
         return "hello";
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleUserControllerException(Exception exc) {
         return ResponseEntity.notFound().build();
