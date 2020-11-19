@@ -17,31 +17,67 @@ public class UserService {
     private UserMapper userMapper;
 
 
+    /**
+     * Delete by primary key int.
+     *
+     * @param id the id
+     * @return the int
+     */
     public int deleteByPrimaryKey(Integer id) {
         return userMapper.deleteByPrimaryKey(id);
     }
 
 
+    /**
+     * Insert int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int insert(User record) {
         return userMapper.insert(record);
     }
 
 
+    /**
+     * Insert selective int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int insertSelective(User record) {
         return userMapper.insertSelective(record);
     }
 
 
+    /**
+     * Select by primary key user.
+     *
+     * @param id the id
+     * @return the user
+     */
     public User selectByPrimaryKey(Integer id) {
         return userMapper.selectByPrimaryKey(id);
     }
 
 
+    /**
+     * Update by primary key selective int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int updateByPrimaryKeySelective(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
     }
 
 
+    /**
+     * Update by primary key int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int updateByPrimaryKey(User record) {
         return userMapper.updateByPrimaryKey(record);
     }

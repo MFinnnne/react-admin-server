@@ -4,6 +4,8 @@ import com.df.config.StatusCode;
 import com.df.pojo.Category;
 import com.df.pojo.RestResult;
 import com.df.service.CategoryService;
+import com.df.utils.PageRequest;
+import com.df.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +43,9 @@ public class CategoryController {
     RestResult<Category> updateCategory(@RequestBody Category category) {
         int isSuccess = categoryService.updateNameById(category.getName(), category.getId());
         return new RestResult<>(isSuccess >= 0, isSuccess >= 0 ? StatusCode.SUCCESS : StatusCode.FAILED, isSuccess >= 0 ? "" : "该品类不存在", category);
+    }
+    @PostMapping("findPage")
+   public PageResult findPage(@RequestBody  PageRequest pageRequest) {
+        return categoryService.findPage(pageRequest);
     }
 }

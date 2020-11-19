@@ -2,6 +2,12 @@ package com.df.service;
 
 import java.util.List;
 
+import com.df.utils.PageRequest;
+import com.df.utils.PageResult;
+import com.df.utils.PageUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,21 +81,38 @@ public class CategoryService {
         return categoryMapper.updateByName(updated, name);
     }
 
-	public int updateNameByName(String updatedName,String name){
-		 return categoryMapper.updateNameByName(updatedName,name);
-	}
+    public int updateNameByName(String updatedName, String name) {
+        return categoryMapper.updateNameByName(updatedName, name);
+    }
 
-	public int updateNameById(String updatedName,Integer id){
-		 return categoryMapper.updateNameById(updatedName,id);
-	}
+    public int updateNameById(String updatedName, Integer id) {
+        return categoryMapper.updateNameById(updatedName, id);
+    }
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
+    public List<Category> findAll() {
+        return categoryMapper.findAll();
+    }
 
+    /**
+     * @param pageRequest 获得分页请求信息
+     * @return 返回分页信息
+     */
+    private PageInfo<Category> getPageInfo(PageRequest pageRequest) {
+        int pageNumber = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        PageHelper.startPage(pageNumber, pageSize);
+        List<Category> categories = categoryMapper.findAll();
+        return new PageInfo<>(categories);
+    }
 
-
-
-
-
-
+    public PageResult findPage(PageRequest pageRequest) {
+        return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
+    }
 }
 
 
