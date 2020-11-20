@@ -40,21 +40,45 @@ public class CategoryService {
     }
 
 
-    public int insertSelective(Category record) {
+    /**
+     * Insert selective int.
+     *
+     * @param record the record
+     * @return the int
+     */
+    public int insertfSelective(Category record) {
         return categoryMapper.insertSelective(record);
     }
 
 
+    /**
+     * Select by primary key category.
+     *
+     * @param id the id
+     * @return the category
+     */
     public Category selectByPrimaryKey(Integer id) {
         return categoryMapper.selectByPrimaryKey(id);
     }
 
 
+    /**
+     * Update by primary key selective int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int updateByPrimaryKeySelective(Category record) {
         return categoryMapper.updateByPrimaryKeySelective(record);
     }
 
 
+    /**
+     * Update by primary key int.
+     *
+     * @param record the record
+     * @return the int
+     */
     public int updateByPrimaryKey(Category record) {
         return categoryMapper.updateByPrimaryKey(record);
     }
@@ -110,6 +134,12 @@ public class CategoryService {
         return new PageInfo<>(categories);
     }
 
+    /**
+     * Find page page result.
+     *
+     * @param pageRequest the page request
+     * @return the page result
+     */
     public PageResult findPage(PageRequest pageRequest) {
         return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
     }

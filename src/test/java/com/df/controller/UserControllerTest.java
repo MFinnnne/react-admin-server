@@ -65,7 +65,6 @@ class UserControllerTest {
     @Test
     public void loginTestWithWrongPWD() throws Exception {
 
-        given(this.userService.findOneByName("admin")).willReturn(new User(1,"admin1","admin"));
         this.mvc.perform(post("/api/user/login")
                 .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
                 .accept(MediaType.APPLICATION_JSON)

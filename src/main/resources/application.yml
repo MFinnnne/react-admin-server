@@ -65,10 +65,10 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.df.pojo
 pagehelper:
-  dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+  helper-dialect: mysql
 
 server:
   port: 5000

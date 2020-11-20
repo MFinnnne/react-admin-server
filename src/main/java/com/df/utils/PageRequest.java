@@ -15,6 +15,14 @@ public class PageRequest {
      */
     private int pageSize;
 
+    public PageRequest() {
+    }
+
+    public PageRequest(int pageNum, int pageSize) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+    }
+
     /**
      * Gets page num.
      *
