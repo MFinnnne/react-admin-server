@@ -1,4 +1,6 @@
 package com.df.mapper;
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.df.pojo.Products;
 
@@ -56,6 +58,9 @@ public interface ProductsMapper {
      * @return the int
      */
     int updateByPrimaryKey(Products record);
+
+    List<Products> findAll();
+
 
 
 }

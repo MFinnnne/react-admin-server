@@ -5,6 +5,8 @@ import javax.annotation.Resource;
 import com.df.mapper.ProductsMapper;
 import com.df.pojo.Products;
 
+import java.util.List;
+
 /**
  * @author MFine
  * @version 1.0
@@ -83,6 +85,10 @@ public class ProductsService {
         return productsMapper.updateByPrimaryKey(record);
     }
 
+
+    public List<Products> findAll() {
+        return productsMapper.findAll();
+    }
 }
 
 

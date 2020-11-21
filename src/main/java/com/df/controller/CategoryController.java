@@ -1,4 +1,5 @@
 package com.df.controller;
+import com.df.pojo.Products;
 
 import com.df.config.StatusCode;
 import com.df.pojo.Category;
@@ -6,7 +7,6 @@ import com.df.pojo.RestResult;
 import com.df.service.CategoryService;
 import com.df.utils.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +23,8 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private com.df.mapper.ProductsMapper productsMapper;
 
 
     @GetMapping(path = "/list/{parentId}")
@@ -50,4 +52,13 @@ public class CategoryController {
     ResponseEntity<Object> findPage(@RequestBody PageRequest pageRequest) {
         return ResponseEntity.ok().body(categoryService.findPage(pageRequest).getContent());
     }
+
+	public List<Products> findAll(){
+		 return productsMapper.findAll();
+	}
+
+
+
+
+
 }

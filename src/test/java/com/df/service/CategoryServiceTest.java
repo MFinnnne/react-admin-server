@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  * @date 2020/11/20 21:34
  **/
-@AutoConfigureMockMvc
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional

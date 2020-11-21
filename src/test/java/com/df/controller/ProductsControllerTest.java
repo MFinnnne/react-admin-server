@@ -1,0 +1,99 @@
+package com.df.controller;
+
+import com.df.pojo.Products;
+import com.df.service.ProductsService;
+import com.df.utils.PageRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/**
+ * @author MFine
+ * @version 1.0
+ * @date 2020/11/21 22:49
+ **/
+@AutoConfigureMockMvc
+@SpringBootTest
+@ActiveProfiles("test")
+@Transactional
+@Rollback
+class ProductsControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ProductsService productsService;
+
+    private ObjectMapper objectMapper;
+
+
+    @Test
+    public void generateTestData(){
+        objectMapper = new ObjectMapper();
+        Products product = productsService.selectByPrimaryKey(1);
+        if (product == null) {
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米8",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米9",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米10",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米11",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米12",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米13",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米14",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米15",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米16",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米17",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米18",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米19",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米20",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米21",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            productsService.insert(new Products(null,"",1, UUID.randomUUID().toString().replace("-", ""),"小米22",
+                    "一部手机而已","2480","0","5","没啥好说的",0));
+            product = productsService.selectByPrimaryKey(1);
+            System.out.println(product.toString());
+        }
+
+    }
+
+    @Test
+    public void findAll() throws Exception {
+        generateTestData();
+        Products product = productsService.selectByPrimaryKey(1);
+        System.out.println(product.toString());
+        ResultActions actions = this.mockMvc.perform(post("/api/products/list").content(objectMapper.writeValueAsString(new PageRequest(1, 3)))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
+        actions.andDo(print());
+    }
+}
