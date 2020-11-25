@@ -89,6 +89,13 @@ public class ProductsService {
     public List<Products> findAll() {
         return productsMapper.findAll();
     }
+
+	public Integer countByIdGreaterThan(Integer minId){
+		 return productsMapper.countByIdGreaterThan(minId);
+	}
+
+
+
 }
 
 

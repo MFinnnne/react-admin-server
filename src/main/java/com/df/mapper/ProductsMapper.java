@@ -5,11 +5,12 @@ import java.util.List;
 import com.df.pojo.Products;
 
 /**
+ * The interface Products mapper.
+ *
  * @author MFine
  * @version 1.0
- * @date 2020/11/18 23:44
- **/
-
+ * @date 2020 /11/18 23:44
+ */
 public interface ProductsMapper {
     /**
      * Delete by primary key int.
@@ -59,7 +60,15 @@ public interface ProductsMapper {
      */
     int updateByPrimaryKey(Products record);
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
     List<Products> findAll();
+
+    Integer countByIdGreaterThan(@Param("minId")Integer minId);
+
 
 
 
