@@ -6,18 +6,18 @@ import com.df.pojo.RestResult;
 import com.df.pojo.User;
 import com.df.service.UserService;
 import com.df.uploadfiles.storage.StorageFileNotFoundException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author ：MFine
  * @description：TODO
  * @date ：2020/10/5 19:23
  */
-@Api(value = "desc of class")
+@Api(tags = "用户相关操作")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -26,8 +26,8 @@ public class UserController {
     private UserService userService;
 
 
-    @ApiOperation(value = "desc of method", notes = "")
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "用户登录", notes = "status为0则登录成功，id参数可以为空")
+    @RequestMapping(path = "/login", method = RequestMethod.POST,consumes = {"application/json"})
     public RestResult<User> login(@RequestBody User user) {
         User findUser = userService.findOneByName(user.getName());
         if (findUser.getPassword().equals(user.getPassword())) {
@@ -35,11 +35,5 @@ public class UserController {
         }
         return new RestResult<>(false, StatusCode.FAILED);
     }
-
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
-
+    
 }

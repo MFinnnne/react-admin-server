@@ -25,11 +25,23 @@ public class CategoryService {
     private CategoryMapper categoryMapper;
 
 
+    /**
+     * Delete by primary key int.
+     *
+     * @param id the id
+     * @return the int
+     */
     public int deleteByPrimaryKey(Integer id) {
         return categoryMapper.deleteByPrimaryKey(id);
     }
 
 
+    /**
+     * 增加商品
+     *
+     * @param record 品类对象
+     * @return the int
+     */
     public int insert(Category record) {
         List<Integer> id = findIdByName(record.getName());
         if (id.size() != 0) {
@@ -38,7 +50,6 @@ public class CategoryService {
             return categoryMapper.insert(record);
         }
     }
-
 
     /**
      * Insert selective int.
@@ -101,10 +112,24 @@ public class CategoryService {
         return categoryMapper.findIdByName(name);
     }
 
+    /**
+     * Update by name int.
+     *
+     * @param updated the updated
+     * @param name    the name
+     * @return the int
+     */
     public int updateByName(Category updated, String name) {
         return categoryMapper.updateByName(updated, name);
     }
 
+    /**
+     * Update name by name int.
+     *
+     * @param updatedName the updated name
+     * @param name        the name
+     * @return the int
+     */
     public int updateNameByName(String updatedName, String name) {
         return categoryMapper.updateNameByName(updatedName, name);
     }

@@ -90,11 +90,35 @@ public class ProductsService {
         return productsMapper.findAll();
     }
 
-	public Integer countByIdGreaterThan(Integer minId){
+    /**
+     * Count by id greater than integer.
+     *
+     * @param minId the min id
+     * @return the integer
+     */
+    public Integer countByIdGreaterThan(Integer minId){
 		 return productsMapper.countByIdGreaterThan(minId);
 	}
 
+    /**
+     * Find all by desc list.
+     *
+     * @param desc the desc
+     * @return the list
+     */
+    public List<Products> findAllByDesc(String desc){
+		 return productsMapper.findAllByDesc(desc);
+	}
 
+    /**
+     * Find all by name list.
+     *
+     * @param name the name
+     * @return the list
+     */
+    public List<Products> findAllByName(String name){
+		 return productsMapper.findAllByName(name);
+	}
 
 }
 

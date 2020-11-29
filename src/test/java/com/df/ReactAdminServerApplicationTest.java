@@ -3,6 +3,7 @@ package com.df;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * @author MFine
@@ -11,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
  **/
 @SpringBootTest
 @ActiveProfiles("test")
+@EnableOpenApi
 class ReactAdminServerApplicationTest {
     @Test
     public void smokeTest(){

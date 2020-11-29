@@ -67,8 +67,23 @@ public interface ProductsMapper {
      */
     List<Products> findAll();
 
+    /**
+     * Count by id greater than integer.
+     *
+     * @param minId the min id
+     * @return the integer
+     */
     Integer countByIdGreaterThan(@Param("minId")Integer minId);
 
+    /**
+     * Find all by desc list.
+     *
+     * @param desc the desc
+     * @return the list
+     */
+    List<Products> findAllByDesc(@Param("desc")String desc);
+
+    List<Products> findAllByName(@Param("name")String name);
 
 
 

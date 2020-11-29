@@ -60,6 +60,8 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.css,/druid/*"
+  application:
+    name: react-admin-server
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
@@ -69,10 +71,12 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
   helper-dialect: mysql
-
 server:
   port: 5000
-
-
-
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
 

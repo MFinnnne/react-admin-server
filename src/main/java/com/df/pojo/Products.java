@@ -1,5 +1,7 @@
 package com.df.pojo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "商品模型")
 public class Products {
+
+    @ApiModelProperty(hidden = true)
     private Integer id;
 
     private String images;
