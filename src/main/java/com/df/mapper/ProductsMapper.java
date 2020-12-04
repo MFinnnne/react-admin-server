@@ -83,8 +83,24 @@ public interface ProductsMapper {
      */
     List<Products> findAllByDesc(@Param("desc")String desc);
 
+    /**
+     * Find all by name list.
+     *
+     * @param name the name
+     * @return the list
+     */
     List<Products> findAllByName(@Param("name")String name);
 
+    /**
+     * Find all by desc like list.
+     *
+     * @param likeDesc the like desc
+     * @return the list
+     */
+    List<Products> findAllByDescLike(@Param("likeDesc")String likeDesc);
+
+
+    List<Products> findAllByNameLike(@Param("likeName")String likeName);
 
 
 }

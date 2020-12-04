@@ -37,7 +37,7 @@ public class ProductsController {
     @GetMapping("/searchByDesc/{desc}/{pageNum}/{pageSize}")
     public ResponseEntity<PageInfo<Products>> searchByDesc(@PathVariable String desc, @PathVariable int pageNum, @PathVariable int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByDesc(desc));
+        PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByDescLike(desc));
         return ResponseEntity.ok().body(pageInfo);
     }
 
@@ -56,10 +56,10 @@ public class ProductsController {
             @ApiImplicitParam(name = "PageNum", value = "第几个开始", required = true, dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "pageSize", value = "查询多少个", required = true, dataTypeClass = Integer.class)
     })
-    @GetMapping("/searchByName/{name}/{pageNum}/{pageSize}")
-    public ResponseEntity<PageInfo<Products>> searchByName(@PathVariable String name, @PathVariable int pageNum, @PathVariable int pageSize) {
+    @GetMapping("/searchByName")
+    public ResponseEntity<PageInfo<Products>> searchByName(@RequestParam(name="name") String name, @RequestParam(name = "pageNum") int pageNum, @RequestParam(name = "pageSize") int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByName(name));
+        PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByNameLike(name));
         return ResponseEntity.ok().body(pageInfo);
     }
 

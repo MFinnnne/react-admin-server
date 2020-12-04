@@ -3,7 +3,9 @@ package com.df.controller;
 import com.df.pojo.User;
 import com.df.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.apache.ibatis.jdbc.Null;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,9 +40,6 @@ import static org.mockito.BDDMockito.given;
 @Rollback
 class UserControllerTest {
 
-    @MockBean
-    private   UserService userService;
-
     @Autowired
     private MockMvc mvc;
 
@@ -53,7 +53,6 @@ class UserControllerTest {
     @Test
     public void loginTestWithCorrectlyPWD() throws Exception {
 
-        given(this.userService.findOneByName("admin")).willReturn(new User(1,"admin","admin"));
         this.mvc.perform(post("/api/user/login")
                 .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
                 .accept(MediaType.APPLICATION_JSON)
@@ -69,7 +68,7 @@ class UserControllerTest {
                 .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"flag\":false,\"status\":-1,\"message\":null,\"data\":null}"))
+                .andExpect(jsonPath("$.data.password",Matchers.nullValue()))
                 .andDo(print());
     }
 
@@ -77,8 +76,7 @@ class UserControllerTest {
     public void loginTestWithNullParam() throws Exception {
         this.mvc.perform(post("/api/user/login")
                 .content(objectMapper.writeValueAsString(new User(null, null, null))))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(""))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 

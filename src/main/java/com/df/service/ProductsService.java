@@ -120,6 +120,18 @@ public class ProductsService {
 		 return productsMapper.findAllByName(name);
 	}
 
+
+	public List<Products> findAllByDescLike(String likeDesc){
+		 return productsMapper.findAllByDescLike(likeDesc);
+	}
+
+	public List<Products> findAllByNameLike(String likeName){
+		 return productsMapper.findAllByNameLike(likeName);
+	}
+
+
+
+
 }
 
 

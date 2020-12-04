@@ -28,7 +28,6 @@ public class FileUploadController {
     private StorageService storageService;
 
     @GetMapping("/")
-
     public ResponseEntity<List<String>> listUploadedFiles() throws IOException {
 
         List<String> files = storageService.loadAll().map(
@@ -49,7 +48,7 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/")
+    @PostMapping("/uploadFile")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
         return ResponseEntity.ok().body("store success");

@@ -43,7 +43,7 @@ public class FileUploadControllerTest {
 
         given(this.storageService.loadAll())
                 .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
-        assertEquals("[\"http://localhost/files/first.txt\",\"http://localhost/files/second.txt\"]", this.mvc.perform(get("/").accept(MediaType.APPLICATION_JSON))
+        assertEquals("[\"http://localhost/files/first.txt\",\"http://localhost/files/second.txt\"]", this.mvc.perform(get("/getFiles").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn().getResponse().getContentAsString());
@@ -53,7 +53,7 @@ public class FileUploadControllerTest {
     public void shouldSaveUploadedFile() throws Exception {
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
                 "text/plain", "Spring Framework".getBytes());
-        this.mvc.perform(multipart("/").file(multipartFile))
+        this.mvc.perform(multipart("/uploadFile").file(multipartFile))
                 .andExpect(status().isOk())
                 .andExpect(content().string("store success"));
 
@@ -65,7 +65,6 @@ public class FileUploadControllerTest {
     public void should404WhenMissingFile() throws Exception {
         given(this.storageService.loadAsResource("test.txt"))
                 .willThrow(StorageFileNotFoundException.class);
-
         this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
     }
 
