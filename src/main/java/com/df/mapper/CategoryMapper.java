@@ -109,7 +109,4 @@ public interface CategoryMapper {
      * @return the list
      */
     List<Category> findAll();
-
-
-
 }

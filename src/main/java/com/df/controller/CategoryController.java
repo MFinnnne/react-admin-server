@@ -53,4 +53,9 @@ public class CategoryController {
     ResponseEntity<Object> findPage(@RequestBody PageRequest pageRequest) {
         return ResponseEntity.ok().body(categoryService.findPage(pageRequest).getContent());
     }
+
+
+    ResponseEntity<Category> findCategoryById() {
+
+    }
 }
