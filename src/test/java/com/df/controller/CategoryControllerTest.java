@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,5 +53,13 @@ class CategoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON));
         actions.andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andDo(print());
+    }
+
+    @Test
+    void findCategoryById() throws Exception {
+        this.mvc.perform(get("/api/category/findCategoryById/1")
+                .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

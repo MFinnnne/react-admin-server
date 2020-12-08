@@ -55,7 +55,11 @@ public class CategoryController {
     }
 
 
-    ResponseEntity<Category> findCategoryById() {
-
+    @GetMapping(value = "/findCategoryById/{id}")
+    ResponseEntity<Category> findCategoryById(@PathVariable Integer id) {
+        Category category = categoryService.selectByPrimaryKey(id);
+        return ResponseEntity.ok().body(category);
     }
+
+
 }

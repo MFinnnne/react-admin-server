@@ -129,6 +129,13 @@ public class ProductsService {
 		 return productsMapper.findAllByNameLike(likeName);
 	}
 
+	public int updateStatusById(Integer updatedStatus,Integer id){
+		 return productsMapper.updateStatusById(updatedStatus,id);
+	}
+
+
+
+
 
 
 

@@ -100,7 +100,22 @@ public interface ProductsMapper {
     List<Products> findAllByDescLike(@Param("likeDesc")String likeDesc);
 
 
+    /**
+     * Find all by name like list.
+     *
+     * @param likeName the like name
+     * @return the list
+     */
     List<Products> findAllByNameLike(@Param("likeName")String likeName);
+
+    /**
+     * Update status by id int.
+     *
+     * @param updatedStatus the updated status
+     * @param id            the id
+     * @return the int
+     */
+    int updateStatusById(@Param("updatedStatus")Integer updatedStatus,@Param("id")Integer id);
 
 
 }

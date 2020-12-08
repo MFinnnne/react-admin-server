@@ -18,10 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -108,10 +108,23 @@ class ProductsControllerTest {
 
     @Test
     void searchByName() throws Exception {
-        ResultActions actions = this.mockMvc.perform(get("/api/products/searchByName/小米8/1/2").
-                contentType(MediaType.APPLICATION_JSON)
+        ResultActions actions = this.mockMvc.perform(get("/api/products/searchByName")
+                .param("name","小米8")
+                .param("pageNum","1")
+                .param("pageSize","3")
+                .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andDo(print()).andExpect(jsonPath("$.list[0].name", Matchers.containsString("小米8")));
+    }
+
+    @Test
+    void updateStatus() throws Exception {
+        ResultActions actions = this.mockMvc.perform(put("/api/products/updateStatus/1/0")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
+        actions.andDo(print());
     }
 }

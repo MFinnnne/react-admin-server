@@ -5,6 +5,7 @@ import com.df.service.ProductsService;
 import com.df.utils.PageRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.cucumber.java.sl.In;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author MFine
@@ -63,4 +64,9 @@ public class ProductsController {
         return ResponseEntity.ok().body(pageInfo);
     }
 
+    @PutMapping(value = "/updateStatus/{id}")
+    ResponseEntity<Integer> updateStatus(@RequestBody Map<String, Integer> map, @PathVariable Integer id){
+        int flag = productsService.updateStatusById(map.get("status"), id);
+        return ResponseEntity.ok().body(flag);
+    }
 }
