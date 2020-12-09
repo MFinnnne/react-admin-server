@@ -5,7 +5,6 @@ import com.df.service.ProductsService;
 import com.df.utils.PageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -109,9 +109,9 @@ class ProductsControllerTest {
     @Test
     void searchByName() throws Exception {
         ResultActions actions = this.mockMvc.perform(get("/api/products/searchByName")
-                .param("name","小米8")
-                .param("pageNum","1")
-                .param("pageSize","3")
+                .param("name", "小米8")
+                .param("pageNum", "1")
+                .param("pageSize", "3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
@@ -120,7 +120,10 @@ class ProductsControllerTest {
 
     @Test
     void updateStatus() throws Exception {
-        ResultActions actions = this.mockMvc.perform(put("/api/products/updateStatus/1/0")
+        Map<String, Integer> map = new HashMap<>();
+        map.put("status", 1);
+        ResultActions actions = this.mockMvc.perform(put("/api/products/updateStatus/1")
+                .content(objectMapper.writeValueAsString(map))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
 
