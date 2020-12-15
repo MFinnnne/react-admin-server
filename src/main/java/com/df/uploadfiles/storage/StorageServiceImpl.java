@@ -1,6 +1,7 @@
 package com.df.uploadfiles.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,12 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -25,6 +27,13 @@ public class StorageServiceImpl implements StorageService {
 
     private final Path rootLocation;
 
+    @Value("${server.port}")
+    private int portNumber;
+
+
+    @Value("${server.address}")
+    private String serverAddress;
+
     @Autowired
     public StorageServiceImpl(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getLocation());
@@ -35,30 +44,34 @@ public class StorageServiceImpl implements StorageService {
         try {
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
-            throw  new StorageException("Could not initialize storage");
+            throw new StorageException("Could not initialize storage");
         }
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public FileUploadResponse store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw  new StorageException("Failed to store empty file"+file.getOriginalFilename());
+                throw new StorageException("Failed to store empty file" + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(),this.rootLocation.resolve(Objects.requireNonNull(file.getOriginalFilename())));
+            String[] split = file.getOriginalFilename().split("\\.");
+            String suffix = split[split.length - 1];
+            String fileName = "image-" + UUID.randomUUID() + "." + suffix;
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+            return new FileUploadResponse("http://" + InetAddress.getLocalHost().getHostAddress() + ":" + portNumber, fileName);
         } catch (Exception e) {
-            throw new StorageException("Failed to store file"+file.getOriginalFilename(),e);
+            throw new StorageException("Failed to store file" + file.getOriginalFilename(), e);
         }
     }
 
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation,1)
+            return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
         } catch (IOException e) {
-            throw new StorageException("Failed to read stored files",e);
+            throw new StorageException("Failed to read stored files", e);
         }
     }
 
@@ -74,11 +87,11 @@ public class StorageServiceImpl implements StorageService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }else {
+            } else {
                 throw new StorageFileNotFoundException("Could not read file: " + filename);
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: "+filename,e);
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
 

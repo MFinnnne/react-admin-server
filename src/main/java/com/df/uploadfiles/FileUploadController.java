@@ -1,17 +1,17 @@
 package com.df.uploadfiles;
 
+import com.df.config.StatusCode;
+import com.df.pojo.RestResult;
+import com.df.uploadfiles.storage.FileUploadResponse;
 import com.df.uploadfiles.storage.StorageFileNotFoundException;
 import com.df.uploadfiles.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +27,7 @@ public class FileUploadController {
     @Autowired
     private StorageService storageService;
 
-    @GetMapping("/")
+    @GetMapping("/images")
     public ResponseEntity<List<String>> listUploadedFiles() throws IOException {
 
         List<String> files = storageService.loadAll().map(
@@ -49,9 +49,9 @@ public class FileUploadController {
     }
 
     @PostMapping("/uploadFile")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        storageService.store(file);
-        return ResponseEntity.ok().body("store success");
+    public ResponseEntity<RestResult<FileUploadResponse>> handleFileUpload(@RequestParam("image") MultipartFile file) {
+        FileUploadResponse uploadResponse = storageService.store(file);
+        return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "success", uploadResponse));
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

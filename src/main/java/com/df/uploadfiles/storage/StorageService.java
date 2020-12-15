@@ -23,8 +23,9 @@ public interface StorageService {
      * Store.
      *
      * @param file the file
+     * @return the String
      */
-    void store(MultipartFile file);
+    FileUploadResponse store(MultipartFile file);
 
     /**
      * Load all stream.
