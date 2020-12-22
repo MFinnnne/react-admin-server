@@ -1,11 +1,12 @@
 package com.df.controller;
 
+import com.df.config.StatusCode;
 import com.df.pojo.Products;
+import com.df.pojo.RestResult;
 import com.df.service.ProductsService;
 import com.df.utils.PageRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.cucumber.java.sl.In;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,13 @@ public class ProductsController {
 
     @Autowired
     private ProductsService productsService;
+
+    @ApiOperation(value = "根据id查找商品")
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Products> getProductsById(@PathVariable Integer id) {
+        Products products = productsService.selectByPrimaryKey(id);
+        return ResponseEntity.ok().body(products);
+    }
 
     @ApiOperation(value = "按照描述搜索", notes = "分页查询")
     @ApiImplicitParams({
@@ -58,15 +67,28 @@ public class ProductsController {
             @ApiImplicitParam(name = "pageSize", value = "查询多少个", required = true, dataTypeClass = Integer.class)
     })
     @GetMapping("/searchByName")
-    public ResponseEntity<PageInfo<Products>> searchByName(@RequestParam(name="name") String name, @RequestParam(name = "pageNum") int pageNum, @RequestParam(name = "pageSize") int pageSize) {
+    public ResponseEntity<PageInfo<Products>> searchByName(@RequestParam(name = "name") String name, @RequestParam(name = "pageNum") int pageNum, @RequestParam(name = "pageSize") int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByNameLike(name));
         return ResponseEntity.ok().body(pageInfo);
     }
 
+    @ApiOperation(value = "根据id更新商品状态（在售或者停售")
     @PutMapping(value = "/updateStatus/{id}")
-    ResponseEntity<Integer> updateStatus(@RequestBody Map<String, Integer> map, @PathVariable Integer id){
+    ResponseEntity<Integer> updateStatus(@RequestBody Map<String, Integer> map, @PathVariable Integer id) {
         int flag = productsService.updateStatusById(map.get("status"), id);
         return ResponseEntity.ok().body(flag);
+    }
+
+    @PutMapping(value = "/updateImages/{id}")
+    ResponseEntity<RestResult<Integer>> updateImages(@PathVariable Integer id, @RequestBody Map<String, List<String>> map) {
+        StringBuilder images = new StringBuilder();
+        List<String> imagesLists = map.get("images");
+        for (int i = 0; i < imagesLists.size() - 1; i++) {
+            images.append(imagesLists.get(i)).append(",");
+        }
+        images.append(imagesLists.get(imagesLists.size() - 1));
+        int flag = productsService.updateImagesById(images, id);
+        return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "success", flag));
     }
 }

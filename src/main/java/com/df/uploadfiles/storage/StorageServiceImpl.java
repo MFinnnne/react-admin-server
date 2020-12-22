@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -29,10 +31,6 @@ public class StorageServiceImpl implements StorageService {
 
     @Value("${server.port}")
     private int portNumber;
-
-
-    @Value("${server.address}")
-    private String serverAddress;
 
     @Autowired
     public StorageServiceImpl(StorageProperties properties) {
@@ -54,7 +52,7 @@ public class StorageServiceImpl implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file" + file.getOriginalFilename());
             }
-            String[] split = file.getOriginalFilename().split("\\.");
+            String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
             String suffix = split[split.length - 1];
             String fileName = "image-" + UUID.randomUUID() + "." + suffix;
             Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
@@ -92,6 +90,17 @@ public class StorageServiceImpl implements StorageService {
             }
         } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
+    @Override
+    public int delete(String filename) throws FileNotFoundException {
+        try {
+            Files.deleteIfExists(this.rootLocation.resolve(filename));
+            return 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new FileNotFoundException();
         }
     }
 

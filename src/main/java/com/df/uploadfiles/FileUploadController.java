@@ -5,6 +5,7 @@ import com.df.pojo.RestResult;
 import com.df.uploadfiles.storage.FileUploadResponse;
 import com.df.uploadfiles.storage.StorageFileNotFoundException;
 import com.df.uploadfiles.storage.StorageService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,7 @@ public class FileUploadController {
     @Autowired
     private StorageService storageService;
 
+    @ApiOperation(value = "获取所有图片")
     @GetMapping("/images")
     public ResponseEntity<List<String>> listUploadedFiles() throws IOException {
 
@@ -39,6 +41,7 @@ public class FileUploadController {
 
     }
 
+    @ApiOperation(value = "根据图片名称获取图片")
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -53,6 +56,7 @@ public class FileUploadController {
         FileUploadResponse uploadResponse = storageService.store(file);
         return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "success", uploadResponse));
     }
+
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {

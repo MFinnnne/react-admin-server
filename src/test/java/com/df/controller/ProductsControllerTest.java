@@ -1,25 +1,26 @@
 package com.df.controller;
 
 import com.df.pojo.Products;
+import com.df.pojo.RestResultTest;
 import com.df.service.ProductsService;
 import com.df.utils.PageRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.*;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @date 2020/11/21 22:49
  **/
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Transactional
 @Rollback
@@ -43,6 +44,9 @@ class ProductsControllerTest {
 
     @Autowired
     private ProductsService productsService;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     private ObjectMapper objectMapper;
 
@@ -130,4 +134,26 @@ class ProductsControllerTest {
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andDo(print());
     }
+
+    @Test
+    void updateImages() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
+        Map<String, List<String>> param = new HashMap<>();
+        List<String> images = new ArrayList<>();
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON);
+        headers.setAccept(mediaTypes);
+        images.add("1.jpg");
+        images.add("2.jpg");
+        param.put("images", images);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.exchange("/api/products/updateImages/1"
+                , HttpMethod.PUT
+                , new HttpEntity<>(param, headers)
+                , RestResultTest.class);
+        Products products = productsService.selectByPrimaryKey(1);
+        Assert.assertEquals(products.getImages(), "1.jpg,2.jpg");
+    }
+
+
 }

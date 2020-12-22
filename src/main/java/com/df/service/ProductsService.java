@@ -1,10 +1,10 @@
 package com.df.service;
 
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
 import com.df.mapper.ProductsMapper;
 import com.df.pojo.Products;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -96,9 +96,9 @@ public class ProductsService {
      * @param minId the min id
      * @return the integer
      */
-    public Integer countByIdGreaterThan(Integer minId){
-		 return productsMapper.countByIdGreaterThan(minId);
-	}
+    public Integer countByIdGreaterThan(Integer minId) {
+        return productsMapper.countByIdGreaterThan(minId);
+    }
 
     /**
      * Find all by desc list.
@@ -106,9 +106,9 @@ public class ProductsService {
      * @param desc the desc
      * @return the list
      */
-    public List<Products> findAllByDesc(String desc){
-		 return productsMapper.findAllByDesc(desc);
-	}
+    public List<Products> findAllByDesc(String desc) {
+        return productsMapper.findAllByDesc(desc);
+    }
 
     /**
      * Find all by name list.
@@ -116,27 +116,32 @@ public class ProductsService {
      * @param name the name
      * @return the list
      */
-    public List<Products> findAllByName(String name){
-		 return productsMapper.findAllByName(name);
-	}
+    public List<Products> findAllByName(String name) {
+        return productsMapper.findAllByName(name);
+    }
 
 
-	public List<Products> findAllByDescLike(String likeDesc){
-		 return productsMapper.findAllByDescLike(likeDesc);
-	}
+    public List<Products> findAllByDescLike(String likeDesc) {
+        return productsMapper.findAllByDescLike(likeDesc);
+    }
 
-	public List<Products> findAllByNameLike(String likeName){
-		 return productsMapper.findAllByNameLike(likeName);
-	}
+    public List<Products> findAllByNameLike(String likeName) {
+        return productsMapper.findAllByNameLike(likeName);
+    }
 
-	public int updateStatusById(Integer updatedStatus,Integer id){
-		 return productsMapper.updateStatusById(updatedStatus,id);
-	}
+    public int updateStatusById(Integer updatedStatus, Integer id) {
+        return productsMapper.updateStatusById(updatedStatus, id);
+    }
 
-
-
-
-
+    /**
+     * 更新商品图片
+     * @param updatedImages 图片字符串
+     * @param id 逐渐
+     * @return 0 失败  1 成功
+     */
+    public int updateImagesById(StringBuilder updatedImages, Integer id) {
+        return productsMapper.updateImagesById(updatedImages.toString(), id);
+    }
 
 
 }

@@ -1,8 +1,9 @@
 package com.df.mapper;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
 import com.df.pojo.Products;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * The interface Products mapper.
@@ -73,7 +74,7 @@ public interface ProductsMapper {
      * @param minId the min id
      * @return the integer
      */
-    Integer countByIdGreaterThan(@Param("minId")Integer minId);
+    Integer countByIdGreaterThan(@Param("minId") Integer minId);
 
     /**
      * Find all by desc list.
@@ -81,7 +82,7 @@ public interface ProductsMapper {
      * @param desc the desc
      * @return the list
      */
-    List<Products> findAllByDesc(@Param("desc")String desc);
+    List<Products> findAllByDesc(@Param("desc") String desc);
 
     /**
      * Find all by name list.
@@ -89,7 +90,7 @@ public interface ProductsMapper {
      * @param name the name
      * @return the list
      */
-    List<Products> findAllByName(@Param("name")String name);
+    List<Products> findAllByName(@Param("name") String name);
 
     /**
      * Find all by desc like list.
@@ -97,7 +98,7 @@ public interface ProductsMapper {
      * @param likeDesc the like desc
      * @return the list
      */
-    List<Products> findAllByDescLike(@Param("likeDesc")String likeDesc);
+    List<Products> findAllByDescLike(@Param("likeDesc") String likeDesc);
 
 
     /**
@@ -106,7 +107,7 @@ public interface ProductsMapper {
      * @param likeName the like name
      * @return the list
      */
-    List<Products> findAllByNameLike(@Param("likeName")String likeName);
+    List<Products> findAllByNameLike(@Param("likeName") String likeName);
 
     /**
      * Update status by id int.
@@ -115,7 +116,16 @@ public interface ProductsMapper {
      * @param id            the id
      * @return the int
      */
-    int updateStatusById(@Param("updatedStatus")Integer updatedStatus,@Param("id")Integer id);
+    int updateStatusById(@Param("updatedStatus") Integer updatedStatus, @Param("id") Integer id);
+
+    /**
+     * 更新商品图片
+     *
+     * @param updatedImages 图片名字符串
+     * @param id            主键
+     * @return 0失败 1成功
+     */
+    int updateImagesById(@Param("updatedImages") String updatedImages, @Param("id") Integer id);
 
 
 }
