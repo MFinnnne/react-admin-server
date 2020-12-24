@@ -52,9 +52,13 @@ public class StorageServiceImpl implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file" + file.getOriginalFilename());
             }
-            String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
-            String suffix = split[split.length - 1];
-            String fileName = "image-" + UUID.randomUUID() + "." + suffix;
+            String fileName = file.getOriginalFilename();
+            if (!Objects.equals(file.getContentType(), "text/plain")) {
+                String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+                String suffix = split[split.length - 1];
+                fileName = "image-" + UUID.randomUUID() + "." + suffix;
+            }
+            assert fileName != null;
             Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
             return new FileUploadResponse("http://" + InetAddress.getLocalHost().getHostAddress() + ":" + portNumber, fileName);
         } catch (Exception e) {
