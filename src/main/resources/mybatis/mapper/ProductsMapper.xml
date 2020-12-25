@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.df.mapper.ProductsMapper">
+  <resultMap id="BaseResultMap" type="com.df.pojo.Products">
+    <!--@mbg.generated-->
+    <!--@Table products-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="images" jdbcType="LONGVARCHAR" property="images" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="id_str" jdbcType="VARCHAR" property="idStr" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="desc" jdbcType="LONGVARCHAR" property="desc" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="p_Category_id" jdbcType="VARCHAR" property="pCategoryId" />
+    <result column="category_Id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+    <result column="__v" jdbcType="INTEGER" property="v" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, images, `status`, id_str, `name`, `desc`, price, p_Category_id, category_Id, 
+    detail, __v
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from products
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from products
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.Products" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into products (images, `status`, id_str, 
+      `name`, `desc`, price, 
+      p_Category_id, category_Id, detail, 
+      __v)
+    values (#{images,jdbcType=LONGVARCHAR}, #{status,jdbcType=INTEGER}, #{idStr,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{desc,jdbcType=LONGVARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{pCategoryId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{detail,jdbcType=LONGVARCHAR}, 
+      #{v,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.Products" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into products
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="images != null">
+        images,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="idStr != null">
+        id_str,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="pCategoryId != null">
+        p_Category_id,
+      </if>
+      <if test="categoryId != null">
+        category_Id,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="v != null">
+        __v,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="images != null">
+        #{images,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="idStr != null">
+        #{idStr,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="pCategoryId != null">
+        #{pCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="v != null">
+        #{v,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.df.pojo.Products">
+    <!--@mbg.generated-->
+    update products
+    <set>
+      <if test="images != null">
+        images = #{images,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="idStr != null">
+        id_str = #{idStr,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="pCategoryId != null">
+        p_Category_id = #{pCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        category_Id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="v != null">
+        __v = #{v,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.df.pojo.Products">
+    <!--@mbg.generated-->
+    update products
+    set images = #{images,jdbcType=LONGVARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      id_str = #{idStr,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=LONGVARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      p_Category_id = #{pCategoryId,jdbcType=VARCHAR},
+      category_Id = #{categoryId,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=LONGVARCHAR},
+      __v = #{v,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-11-22-->
+  <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from products
+    </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-11-25-->
+  <select id="countByIdGreaterThan" resultType="java.lang.Integer">
+    select count(1)
+    from products
+    <where>
+      <if test="minId != null">
+        and id <![CDATA[>]]> #{minId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-11-29-->
+  <select id="findAllByDesc" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from products
+        <where>
+            <if test="desc != null">
+                and `desc`  like #{desc,jdbcType=LONGVARCHAR}
+            </if>
+        </where>
+    </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-11-29-->
+  <select id="findAllByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from products
+        where `name` like #{name,jdbcType=VARCHAR}
+    </select>
+
+
+<!--auto generated by MybatisCodeHelper on 2020-11-30-->
+  <select id="findAllByDescLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from products
+    where `desc` like concat('%',#{likeDesc,jdbcType=LONGVARCHAR},'%')
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-11-30-->
+  <select id="findAllByNameLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from products
+    where `name` like concat('%',#{likeName,jdbcType=VARCHAR},'%')
+  </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-12-07-->
+  <update id="updateStatusById">
+        update products
+        set `status`=#{updatedStatus,jdbcType=INTEGER}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-12-22-->
+  <update id="updateImagesById">
+        update products
+        set images=#{updatedImages,jdbcType=LONGVARCHAR}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+</mapper>

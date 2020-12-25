@@ -58,19 +58,22 @@ spring:
 
       # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
       web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.css,/druid/*"
-  application:
-    name: react-admin-server
+        enabled: false
 
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.df.pojo
 pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
   helper-dialect: mysql
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.df.pojo
+
+logging:
+  level:
+   com.df.mapper: debug
 server:
   port: 5000
 

@@ -2,28 +2,39 @@ package com.df.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @author ：MFine
- * @description：TODO 配置swagger
- * @date ：2020/10/16 15:07
- */
+ * @author MFine
+ * @version 1.0
+ * @date 2020/11/26 22:26
+ **/
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
-
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+    public Docket docket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo()).enable(true)
                 .select()
+                //apis： 添加swagger接口提取范围
                 .apis(RequestHandlerSelectors.any())
+                //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build();
     }
 
+    private ApiInfo apiInfo(){
+        return new ApiInfoBuilder()
+                .title("read-admin api 文档")
+                .description("一个练手的小项目")
+                .contact(new Contact("MFine", "https://blog.csdn.net/qq_38867101?spm=1000.2115.3001.5113", "lxemyf@gmail.com"))
+                .version("1.0")
+                .build();
+    }
 }
