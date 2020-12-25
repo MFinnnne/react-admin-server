@@ -63,5 +63,5 @@ public interface StorageService {
      * @return 0 成功 1 失败
      * @throws FileNotFoundException  文件未找到异常
      */
-    int delete(String filename) throws FileNotFoundException;
+    int delete(String filename) ;
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -98,13 +97,12 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public int delete(String filename) throws FileNotFoundException {
+    public int delete(String filename) {
         try {
             Files.deleteIfExists(this.rootLocation.resolve(filename));
             return 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new FileNotFoundException();
+        } catch (Exception e) {
+            throw new DeleteFileNotFoundException("file not found", e);
         }
     }
 

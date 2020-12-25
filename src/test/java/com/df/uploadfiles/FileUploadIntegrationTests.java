@@ -1,5 +1,6 @@
 package com.df.uploadfiles;
 
+import com.df.pojo.RestResultTest;
 import com.df.uploadfiles.storage.StorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,14 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,6 +63,13 @@ public class FileUploadIntegrationTests {
         assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_DISPOSITION))
                 .isEqualTo("attachment; filename=\"testupload.txt\"");
         assertThat(response.getBody()).isEqualTo("Spring Framework");
+    }
+
+    @Test
+    public void shouldDeleteFile() {
+        given(this.storageService.delete("test.txt")).willReturn(1);
+        ResponseEntity<RestResultTest> entity = this.restTemplate.exchange("/deleteFile/test.txt", HttpMethod.DELETE, null, RestResultTest.class);
+        assertThat(Objects.requireNonNull(entity.getBody()).getData()).isEqualTo(1);
     }
 
 }
