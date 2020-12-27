@@ -142,8 +142,6 @@ public class ProductsService {
     public int updateImagesById(StringBuilder updatedImages, Integer id) {
         return productsMapper.updateImagesById(updatedImages.toString(), id);
     }
-
-
 }
 
 

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -155,5 +156,19 @@ class ProductsControllerTest {
         Assert.assertEquals(products.getImages(), "1.jpg,2.jpg");
     }
 
-
+    @Test
+    void addProduct(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
+        Map<String, List<String>> param = new HashMap<>();
+        List<String> images = new ArrayList<>();
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON);
+        headers.setAccept(mediaTypes);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.postForEntity("/api/products/addProduct",new Products(
+                null,"123.jpg",1,UUID.randomUUID().toString().replace("-", ""),"mate 40",
+                "华为手机","5999","0","5",null,0)
+                ,RestResultTest.class);
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
+    }
 }

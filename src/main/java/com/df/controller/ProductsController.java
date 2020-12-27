@@ -7,10 +7,7 @@ import com.df.service.ProductsService;
 import com.df.utils.PageRequest;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,6 +77,17 @@ public class ProductsController {
         return ResponseEntity.ok().body(flag);
     }
 
+
+    @ApiOperation(value = "通过id 更新商品图片")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", required = true, value = "商品id"),
+            @ApiImplicitParam(name = "map", value = "请求体", required = true, paramType = "body", examples = @Example(
+                    {
+                            @ExampleProperty(value = "{'images':'1.jpg,2.jpg'}",     mediaType = "application/json")
+                    }
+            ))}
+    )
+
     @PutMapping(value = "/updateImages/{id}")
     ResponseEntity<RestResult<Integer>> updateImages(@PathVariable Integer id, @RequestBody Map<String, List<String>> map) {
         StringBuilder images = new StringBuilder();
@@ -90,5 +98,16 @@ public class ProductsController {
         images.append(imagesLists.get(imagesLists.size() - 1));
         int flag = productsService.updateImagesById(images, id);
         return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "success", flag));
+    }
+
+    @ApiOperation(value = "添加商品")
+    @PostMapping("/addProduct")
+    ResponseEntity<RestResult<Integer>> addProduct(@RequestBody Products products) {
+        int insert = productsService.insert(products);
+        if (insert == 1) {
+            return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "", insert));
+        }
+        return ResponseEntity.ok().body(new RestResult<>(false, StatusCode.FAILED, "", insert));
+
     }
 }
