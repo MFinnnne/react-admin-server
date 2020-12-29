@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author MFine
@@ -38,6 +39,9 @@ public class ProductsService {
      * @return the int
      */
     public int insert(Products record) {
+        if (record.getIdStr() == null) {
+            record.setIdStr(UUID.randomUUID().toString().replace("-",""));
+        }
         return productsMapper.insert(record);
     }
 
@@ -135,12 +139,21 @@ public class ProductsService {
 
     /**
      * 更新商品图片
+     *
      * @param updatedImages 图片字符串
-     * @param id 逐渐
+     * @param id            逐渐
      * @return 0 失败  1 成功
      */
     public int updateImagesById(StringBuilder updatedImages, Integer id) {
         return productsMapper.updateImagesById(updatedImages.toString(), id);
+    }
+
+    /**
+     * @param products 商品
+     * @return 1 成功 -- 0 失败
+     */
+    public int updateProductById(Products products) {
+        return productsMapper.updateByPrimaryKey(products);
     }
 }
 

@@ -80,12 +80,12 @@ public class ProductsController {
 
     @ApiOperation(value = "通过id 更新商品图片")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", required = true, value = "商品id"),
+            @ApiImplicitParam(name = "id", required = true, value = "商品id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "map", value = "请求体", required = true, paramType = "body", examples = @Example(
                     {
-                            @ExampleProperty(value = "{'images':'1.jpg,2.jpg'}",     mediaType = "application/json")
+                            @ExampleProperty(value = "{'images':'1.jpg,2.jpg'}", mediaType = "application/json")
                     }
-            ))}
+            ), dataTypeClass = Map.class)}
     )
 
     @PutMapping(value = "/updateImages/{id}")
@@ -109,5 +109,12 @@ public class ProductsController {
         }
         return ResponseEntity.ok().body(new RestResult<>(false, StatusCode.FAILED, "", insert));
 
+    }
+
+    @PutMapping("/updateProduct/{id}")
+    ResponseEntity<RestResult<Integer>> updateProduct(@PathVariable("id") Integer id, @RequestBody Products product) {
+        product.setId(id);
+        int flag = productsService.updateProductById(product);
+        return ResponseEntity.ok().body(new RestResult<>(false, StatusCode.SUCCESS, "", flag));
     }
 }

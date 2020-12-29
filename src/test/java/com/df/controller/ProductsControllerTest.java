@@ -160,8 +160,6 @@ class ProductsControllerTest {
     void addProduct(){
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
-        Map<String, List<String>> param = new HashMap<>();
-        List<String> images = new ArrayList<>();
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
         headers.setAccept(mediaTypes);
@@ -169,6 +167,22 @@ class ProductsControllerTest {
                 null,"123.jpg",1,UUID.randomUUID().toString().replace("-", ""),"mate 40",
                 "华为手机","5999","0","5",null,0)
                 ,RestResultTest.class);
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
+    }
+
+    @Test
+    void updateProduct(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
+        Map<String, Products> param = new HashMap<>();
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON);
+        headers.setAccept(mediaTypes);
+        Products products = new Products(2, "1.jpg", 1,
+                UUID.randomUUID().toString().replace("-", ""), "小米9",
+                "手机", "2390", "5", "0", "", 0);
+        param.put("products",products);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.exchange("/api/products/updateProduct/2",HttpMethod.PUT,new HttpEntity<>(products,headers),RestResultTest.class);
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
     }
 }
