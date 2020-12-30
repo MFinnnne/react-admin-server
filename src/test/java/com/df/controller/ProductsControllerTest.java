@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -155,5 +156,33 @@ class ProductsControllerTest {
         Assert.assertEquals(products.getImages(), "1.jpg,2.jpg");
     }
 
+    @Test
+    void addProduct(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON);
+        headers.setAccept(mediaTypes);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.postForEntity("/api/products/addProduct",new Products(
+                null,"123.jpg",1,UUID.randomUUID().toString().replace("-", ""),"mate 40",
+                "华为手机","5999","0","5",null,0)
+                ,RestResultTest.class);
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
+    }
 
+    @Test
+    void updateProduct(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
+        Map<String, Products> param = new HashMap<>();
+        List<MediaType> mediaTypes = new ArrayList<>();
+        mediaTypes.add(MediaType.APPLICATION_JSON);
+        headers.setAccept(mediaTypes);
+        Products products = new Products(2, "1.jpg", 1,
+                UUID.randomUUID().toString().replace("-", ""), "小米9",
+                "手机", "2390", "5", "0", "", 0);
+        param.put("products",products);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.exchange("/api/products/updateProduct/2",HttpMethod.PUT,new HttpEntity<>(products,headers),RestResultTest.class);
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
+    }
 }

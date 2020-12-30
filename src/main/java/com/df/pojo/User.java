@@ -15,11 +15,13 @@ import lombok.NoArgsConstructor;
 @ApiModel("用户基本信息")
 public class User {
 
-    @ApiModelProperty(example = "1",notes = "可以不写这个属性",hidden = true)
+    @ApiModelProperty(example = "1",notes = "可以不写这个属性")
     private Integer id;
 
+    @ApiModelProperty(example = "123",required = true)
     private String password;
 
+    @ApiModelProperty(example = "admin",required = true)
     private String name;
 
 }

@@ -99,7 +99,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public int delete(String filename) {
         try {
-            Files.deleteIfExists(this.rootLocation.resolve(filename));
+            Files.delete(this.rootLocation.resolve(filename));
             return 0;
         } catch (Exception e) {
             throw new DeleteFileNotFoundException("file not found", e);
