@@ -111,6 +111,10 @@ public class ProductsController {
 
     }
 
+    @ApiOperation(value = "根据id更新商品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true, dataTypeClass = Integer.class)
+    })
     @PutMapping("/updateProduct/{id}")
     ResponseEntity<RestResult<Integer>> updateProduct(@PathVariable("id") Integer id, @RequestBody Products product) {
         product.setId(id);
