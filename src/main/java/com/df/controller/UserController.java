@@ -28,13 +28,14 @@ public class UserController {
 
 
     @ApiOperation(value = "用户登录", notes = "status为0则登录成功，id参数可以为空")
-    @RequestMapping(path = "/login", method = RequestMethod.POST,consumes = {"application/json"})
+    @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = {"application/json"})
     public RestResult<User> login(@RequestBody User user) {
         User findUser = userService.findOneByName(user.getName());
         if (findUser.getPassword().equals(user.getPassword())) {
-            return new RestResult<>(true, StatusCode.SUCCESS, "", new User(findUser.getId(), null, findUser.getName()));
+            return new RestResult<>(true, StatusCode.SUCCESS, "", findUser);
         }
         return new RestResult<>(false, StatusCode.FAILED);
     }
-    
+
+
 }
