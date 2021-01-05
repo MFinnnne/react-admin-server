@@ -114,13 +114,13 @@ class ProductsControllerTest {
     @Test
     void searchByName() throws Exception {
         ResultActions actions = this.mockMvc.perform(get("/api/products/searchByName")
-                .param("name", "小米8")
+                .param("name", "小米9")
                 .param("pageNum", "1")
                 .param("pageSize", "3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
-        actions.andDo(print()).andExpect(jsonPath("$.list[0].name", Matchers.containsString("小米8")));
+        actions.andDo(print()).andExpect(jsonPath("$.list[0].name", Matchers.containsString("小米9")));
     }
 
     @Test
