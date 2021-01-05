@@ -6,6 +6,7 @@ package com.df.uploadfiles.storage;
  * @date 2020/11/4 23:26
  **/
 public class StorageException extends RuntimeException{
+
     public StorageException(String message) {
         super(message);
     }

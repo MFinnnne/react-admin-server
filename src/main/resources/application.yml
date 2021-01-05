@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   servlet:
     multipart:
       enabled: true
@@ -60,10 +64,17 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.css,/druid/*"
+  application:
+    name: react-admin-server
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.df.pojo
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  helper-dialect: mysql
 server:
   port: 5000
 

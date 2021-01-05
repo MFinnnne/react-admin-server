@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   servlet:
     multipart:
       enabled: true
@@ -60,10 +64,20 @@ spring:
       web-stat-filter:
         enabled: false
 
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  helper-dialect: mysql
+
 
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.df.pojo
+
+logging:
+  level:
+   com.df.mapper: debug
 server:
   port: 5000
 

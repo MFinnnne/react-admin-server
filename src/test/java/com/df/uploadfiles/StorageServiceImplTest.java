@@ -10,6 +10,7 @@ import org.junit.jupiter.api.condition.OS;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
@@ -31,7 +32,7 @@ class StorageServiceImplTest {
 
     @BeforeEach
     void init() {
-        properties.setLocation("D:\\study road\\React\\file\\files"+Math.abs(new Random().nextLong()));
+        properties.setLocation("D:\\study road\\React\\file\\files" + Math.abs(new Random().nextLong()));
         service = new StorageServiceImpl(properties);
         service.init();
     }
@@ -51,25 +52,21 @@ class StorageServiceImplTest {
 
     @Test
     public void saveRelativePathNotPermitted() {
-        assertThrows(StorageException.class, () -> {
-            service.store(new MockMultipartFile("foo", "../foo.txt",
-                    MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes()));
-        });
+        assertThrows(StorageException.class, () -> service.store(new MockMultipartFile("foo", "../foo.txt",
+                MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes())));
     }
 
     @Test
     public void saveAbsolutePathNotPermitted() {
-        assertThrows(StorageException.class, () -> {
-            service.store(new MockMultipartFile("foo", "/etc/passwd",
-                    MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes()));
-        });
+        assertThrows(StorageException.class, () -> service.store(new MockMultipartFile("foo", "/etc/passwd",
+                MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes())));
     }
 
     @Test
     @EnabledOnOs({OS.LINUX})
     public void saveAbsolutePathInFilenamePermitted() {
         //Unix file systems (e.g. ext4) allows backslash '\' in file names.
-        String fileName="\\etc\\passwd";
+        String fileName = "\\etc\\passwd";
         service.store(new MockMultipartFile(fileName, fileName,
                 MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes()));
         assertTrue(Files.exists(
@@ -81,5 +78,15 @@ class StorageServiceImplTest {
         service.store(new MockMultipartFile("foo", "bar/../foo.txt",
                 MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes()));
     }
+
+    @Test
+    public void delete() throws FileNotFoundException {
+        service.store(new MockMultipartFile("foo", "bar/../foo.txt",
+                MediaType.TEXT_PLAIN_VALUE, "Hello, World".getBytes()));
+        assertThat(service.load("foo.txt")).exists();
+        service.delete("foo.txt");
+        assertThat(service.load("foo.txt")).doesNotExist();
+    }
+
 
 }

@@ -21,6 +21,10 @@ public class RestResult<T> {
         this.data = data;
     }
 
+    public RestResult() {
+
+    }
+
     private void setStatusValue(StatusCode status) {
         switch (status) {
             case FAILED:

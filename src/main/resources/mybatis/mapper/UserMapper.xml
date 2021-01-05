@@ -7,10 +7,15 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="__v" jdbcType="INTEGER" property="v" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `password`, `name`
+    id, `password`, `name`, phone, email, role_id, create_time, __v
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -26,26 +31,60 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into `user` (`password`, `name`)
-    values (#{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+    insert into `user` (`password`, `name`, phone, 
+      email, role_id, create_time, 
+      __v)
+    values (#{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+      #{v,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.df.pojo.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `user`
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="password != null and password != ''">
+      <if test="password != null">
         `password`,
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         `name`,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="v != null">
+        __v,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="password != null and password != ''">
+      <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="v != null">
+        #{v,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -53,11 +92,26 @@
     <!--@mbg.generated-->
     update `user`
     <set>
-      <if test="password != null and password != ''">
+      <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="name != null and name != ''">
+      <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="v != null">
+        __v = #{v,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -66,7 +120,12 @@
     <!--@mbg.generated-->
     update `user`
     set `password` = #{password,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR}
+      `name` = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      __v = #{v,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

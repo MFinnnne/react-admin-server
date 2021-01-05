@@ -1,17 +1,21 @@
 package com.df.uploadfiles.storage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
@@ -19,9 +23,13 @@ import java.util.stream.Stream;
  * @version 1.0
  * @date 2020/11/4 20:47
  **/
+@Service
 public class StorageServiceImpl implements StorageService {
 
     private final Path rootLocation;
+
+    @Value("${server.port}")
+    private int portNumber;
 
     @Autowired
     public StorageServiceImpl(StorageProperties properties) {
@@ -33,31 +41,38 @@ public class StorageServiceImpl implements StorageService {
         try {
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
-            throw  new StorageException("Could not initialize storage");
+            throw new StorageException("Could not initialize storage");
         }
     }
 
     @Override
-    public void store(MultipartFile file) {
-        System.out.println("I'm here");
+    public FileUploadResponse store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw  new StorageException("Failed to store empty file"+file.getOriginalFilename());
+                throw new StorageException("Failed to store empty file" + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(),this.rootLocation.resolve(Objects.requireNonNull(file.getOriginalFilename())));
+            String fileName = file.getOriginalFilename();
+            if (!Objects.equals(file.getContentType(), "text/plain")) {
+                String[] split = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+                String suffix = split[split.length - 1];
+                fileName = "image-" + UUID.randomUUID() + "." + suffix;
+            }
+            assert fileName != null;
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
+            return new FileUploadResponse("http://" + InetAddress.getLocalHost().getHostAddress() + ":" + portNumber, fileName);
         } catch (Exception e) {
-            throw new StorageException("Failed to store file"+file.getOriginalFilename(),e);
+            throw new StorageException("Failed to store file" + file.getOriginalFilename(), e);
         }
     }
 
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.rootLocation,1)
+            return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
         } catch (IOException e) {
-            throw new StorageException("Failed to read stored files",e);
+            throw new StorageException("Failed to read stored files", e);
         }
     }
 
@@ -73,11 +88,21 @@ public class StorageServiceImpl implements StorageService {
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
-            }else {
+            } else {
                 throw new StorageFileNotFoundException("Could not read file: " + filename);
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: "+filename,e);
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
+    }
+
+    @Override
+    public int delete(String filename) {
+        try {
+            Files.delete(this.rootLocation.resolve(filename));
+            return 0;
+        } catch (Exception e) {
+            throw new DeleteFileNotFoundException("file not found", e);
         }
     }
 

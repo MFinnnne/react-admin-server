@@ -3,6 +3,8 @@ package com.df.uploadfiles.storage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
+
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -23,8 +25,9 @@ public interface StorageService {
      * Store.
      *
      * @param file the file
+     * @return the String
      */
-    void store(MultipartFile file);
+    FileUploadResponse store(MultipartFile file);
 
     /**
      * Load all stream.
@@ -42,6 +45,7 @@ public interface StorageService {
     Path load(String filename);
 
     /**
+     * 读取资源
      * @param filename 文件名
      * @return 资源
      */
@@ -51,4 +55,13 @@ public interface StorageService {
      * Delete all.
      */
     void deleteAll();
+
+
+    /**
+     * 删除文件
+     * @param filename 文件名
+     * @return 0 成功 1 失败
+     * @throws FileNotFoundException  文件未找到异常
+     */
+    int delete(String filename) ;
 }
