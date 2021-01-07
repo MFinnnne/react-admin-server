@@ -44,7 +44,7 @@ public class FileUploadControllerTest {
 
         given(this.storageService.loadAll())
                 .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
-        assertEquals("[\"http://localhost/files/first.txt\",\"http://localhost/files/second.txt\"]", this.mvc.perform(get("/getFiles").accept(MediaType.APPLICATION_JSON))
+        assertEquals("[\"http://localhost/files/first.txt\",\"http://localhost/files/second.txt\"]", this.mvc.perform(get("/images").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn().getResponse().getContentAsString());
@@ -52,11 +52,11 @@ public class FileUploadControllerTest {
 
     @Test
     public void shouldSaveUploadedFile() throws Exception {
-        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+        MockMultipartFile multipartFile = new MockMultipartFile("image", "test.txt",
                 "text/plain", "Spring Framework".getBytes());
         this.mvc.perform(multipart("/uploadFile").file(multipartFile))
                 .andExpect(status().isOk())
-                .andExpect(content().string("store success"));
+                .andExpect(jsonPath("$.status").value(0));
 
         then(this.storageService).should().store(multipartFile);
     }

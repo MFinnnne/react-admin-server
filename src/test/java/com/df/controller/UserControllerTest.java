@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,36 +37,36 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         objectMapper = new ObjectMapper();
     }
 
     @Test
     public void loginTestWithCorrectlyPWD() throws Exception {
 
-        this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
+        ResultActions actions = this.mvc.perform(post("/api/user/login")
+                .content(objectMapper.writeValueAsString(new User(null, "admin", "admin", "13584574374", "lxemyf@gmail.com", null, null, 0)))
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"flag\":true,\"status\":0,\"message\":\"\",\"data\":{\"id\":1,\"password\":null,\"name\":\"admin\"}}"))
-                .andDo(print());
+                .contentType(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
+        actions.andDo(print()).andExpect(jsonPath("$.data.id",Matchers.equalTo(1)));
     }
 
     @Test
     public void loginTestWithWrongPWD() throws Exception {
 
         this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
+                .content(objectMapper.writeValueAsString(new User()))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.data.password",Matchers.nullValue()))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 
     @Test
     public void loginTestWithNullParam() throws Exception {
         this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null, null, null))))
+                .content(objectMapper.writeValueAsString(new User())))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
