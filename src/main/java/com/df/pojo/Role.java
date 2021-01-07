@@ -1,5 +1,6 @@
 package com.df.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,8 @@ import java.time.LocalDateTime;
  * *  角色表
  *
  * @author MFine
- * @date 2021/1/6 23:52
  * @version 1.0
+ * @date 2021/1/6 23:52
  **/
 
 @Data
@@ -31,6 +32,7 @@ public class Role {
     /**
      * 角色建立时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
@@ -46,6 +48,7 @@ public class Role {
     /**
      * 授权时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime authTime;
 
     /**
