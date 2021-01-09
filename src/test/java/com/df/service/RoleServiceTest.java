@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author MFine
@@ -41,4 +42,13 @@ class RoleServiceTest {
         assertNotEquals(roles, null);
         assertEquals(count, roles.size());
     }
+
+
+    @Test
+    void addRole() {
+        int mFine = roleService.addRole("MFine");
+        assertEquals(mFine,1);
+    }
+
+
 }

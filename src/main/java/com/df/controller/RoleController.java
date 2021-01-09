@@ -5,12 +5,10 @@ import com.df.pojo.RestResult;
 import com.df.pojo.Role;
 import com.df.service.RoleService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,14 @@ public class RoleController {
     ResponseEntity<RestResult<List<Role>>> getRoles() {
         List<Role> roles = roleService.findAll();
         return ResponseEntity.ok().body(new RestResult<>(true, StatusCode.SUCCESS, "", roles == null ? new ArrayList<>() : roles));
+    }
+
+    @ApiOperation(value = "创建角色")
+    @PostMapping("/createRole")
+    ResponseEntity<String> createRole(@RequestBody String name) {
+        int flag = roleService.addRole(name);
+        return ResponseEntity.ok().body(flag==1?"success":"fall");
+
     }
 
     @ExceptionHandler(Exception.class)
