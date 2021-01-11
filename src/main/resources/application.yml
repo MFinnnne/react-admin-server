@@ -1,6 +1,5 @@
-hello2: hello2
-
 spring:
+
   mvc:
     hiddenmethod:
       filter:

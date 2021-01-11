@@ -1,8 +1,5 @@
-hello: hello
 spring:
-  h2:
-    console:
-      enabled: true
+
   mvc:
     hiddenmethod:
       filter:
@@ -16,13 +13,15 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
   datasource:
-    username: mfine
-    password: 123456
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL
-    driver-class-name: org.h2.Driver
-    schema: classpath:schema.sql
-    data: classpath:data.sql
     druid:
+      #   数据源基本配置
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/react_admin?useUnicode=true&characterEncoding=utf-8
+      #   数据源其他配置
+      #初始化时建立物理连接的个数
+      initial-size: 5
       #最小连接池数量
       min-idle: 5
       #最大连接池数量 maxIdle已经不再使用
@@ -66,21 +65,17 @@ spring:
       web-stat-filter:
         enabled: true
         exclusions: "*.js,*.css,/druid/*"
+  application:
+    name: react-admin-server
 
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.df.pojo
 pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
   helper-dialect: mysql
-
-
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.df.pojo
-
-logging:
-  level:
-    com.df.mapper: debug
 server:
   port: 5000
 
