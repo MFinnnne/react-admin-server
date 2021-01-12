@@ -127,5 +127,12 @@ public interface ProductsMapper {
      */
     int updateImagesById(@Param("updatedImages") String updatedImages, @Param("id") Integer id);
 
+    /**
+     * Count integer.
+     *
+     * @return the integer
+     */
+    Integer count();
+
 
 }
