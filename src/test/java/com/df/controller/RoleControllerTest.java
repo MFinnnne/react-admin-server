@@ -89,7 +89,7 @@ class RoleControllerTest {
         HashMap<String, String> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put("name","mfine");
         given(roleService.addRole("mfine")).willReturn(1);
-        ResultActions actions = this.mvc.perform(post("/api/role/createRole").content("mfine").contentType(MediaType.APPLICATION_JSON));
+        ResultActions actions = this.mvc.perform(post("/api/role/createRoleByName").content("mfine").contentType(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andDo(print());
     }

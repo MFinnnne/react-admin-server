@@ -49,7 +49,7 @@ public class RoleControllerIntegrationTests {
     @Test
     public  void shouldCreateRole() {
         System.out.println(hello);
-        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", "mfine", String.class);
+        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRoleByName", "mfine", String.class);
         assertEquals("success", responseEntity.getBody());
     }
 }
