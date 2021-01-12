@@ -155,6 +155,13 @@ public class ProductsService {
     public int updateProductById(Products products) {
         return productsMapper.updateByPrimaryKey(products);
     }
+
+	public Integer count(){
+		 return productsMapper.count();
+	}
+
+
+
 }
 
 

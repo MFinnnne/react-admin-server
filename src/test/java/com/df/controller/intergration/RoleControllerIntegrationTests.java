@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Objects;
 
@@ -22,15 +21,12 @@ import static org.junit.Assert.assertEquals;
  * @version 1.0
  * @date 2021/1/7 22:10
  **/
-@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RoleControllerIntegrationTests {
 
     @Value("hello")
     private String hello;
 
-    @Value("hello2")
-    private String hello2;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -52,7 +48,7 @@ public class RoleControllerIntegrationTests {
 
     @Test
     public  void shouldCreateRole() {
-        System.out.println(hello+"--"+hello2);
+        System.out.println(hello);
         ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", "mfine", String.class);
         assertEquals("success", responseEntity.getBody());
     }

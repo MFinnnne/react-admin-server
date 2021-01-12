@@ -1,8 +1,5 @@
-hello: hello
 spring:
-  h2:
-    console:
-      enabled: true
+
   mvc:
     hiddenmethod:
       filter:
@@ -22,20 +19,16 @@ spring:
     driver-class-name: org.h2.Driver
     schema: classpath:schema.sql
     data: classpath:data.sql
+  application:
+    name: react-admin-server
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.df.pojo
 pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
   helper-dialect: mysql
-
-
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.df.pojo
-
-logging:
-  level:
-    com.df.mapper: debug
 server:
   port: 5000
 

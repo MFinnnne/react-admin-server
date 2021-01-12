@@ -13,4 +13,52 @@ create table role
 )
     comment '角色表';
 
+-- category
+drop table if exists `category`;
 
+create table category
+(
+    id            int auto_increment
+        primary key,
+    parent_id     varchar(30) null,
+    name          varchar(20) null,
+    category_name varchar(20) null,
+    parent_name   varchar(20) null
+);
+
+-- products
+drop table if exists `products`;
+
+create table products
+(
+    id            int auto_increment
+        primary key,
+    images        text        null,
+    status        int         null,
+    id_str        varchar(40) null,
+    name          varchar(40) null,
+    `desc`        tinytext    null,
+    price         varchar(20) null,
+    p_Category_id varchar(30) null,
+    category_Id   varchar(30) null,
+    detail        text        null,
+    __v           int         null
+);
+
+-- user
+drop table if exists `user`;
+
+create table user
+(
+    id          int auto_increment
+        primary key,
+    password    varchar(20) null,
+    name        varchar(20) null,
+    phone       varchar(20) null,
+    email       varchar(30) null,
+    role_id     varchar(30) null,
+    create_time bigint      null,
+    __v         int         null,
+    constraint user_name_uindex
+        unique (name)
+);
