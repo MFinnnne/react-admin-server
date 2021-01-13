@@ -64,7 +64,7 @@ public class RoleControllerIntegrationTests {
     void shouldCreateRole() throws JsonProcessingException {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
-        Role role = new Role(null, "mfine",
+        Role role = new Role(null,"mfine",
                 LocalDateTime.now(), "", 0, null, "admin");
         ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", role, String.class);
         assertEquals("success", responseEntity.getBody());
