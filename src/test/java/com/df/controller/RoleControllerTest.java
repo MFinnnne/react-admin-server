@@ -3,9 +3,13 @@ package com.df.controller;
 import com.df.pojo.Role;
 import com.df.service.RoleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +19,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,12 +91,27 @@ class RoleControllerTest {
     }
 
     @Test
-    void shouldCreateRole() throws Exception {
+    void shouldCreateRoleByName() throws Exception {
         HashMap<String, String> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("name","mfine");
+        objectObjectHashMap.put("name", "mfine");
         given(roleService.addRole("mfine")).willReturn(1);
         ResultActions actions = this.mvc.perform(post("/api/role/createRoleByName").content("mfine").contentType(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andDo(print());
+    }
+
+    @Test
+    void shouldCreateRole() throws Exception {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+        Role role = new Role(null, "mfine",
+                LocalDateTime.now(), "", 0, null, "admin");
+        given(roleService.insertSelective(BDDMockito.any())).willReturn(1);
+        ResultActions actions = this.mvc.perform(post("/api/role/createRole").content(objectMapper.writeValueAsString(role))
+                .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
+        actions.andExpect(ResultMatcher.matchAll(result -> {
+            Assert.assertTrue(result.getResponse().getContentAsString().contains("success"));
+        }));
     }
 }
