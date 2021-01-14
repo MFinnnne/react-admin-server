@@ -2,10 +2,7 @@ package com.df.controller.intergration;
 
 import com.df.pojo.RestResultList;
 import com.df.pojo.Role;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,9 +58,8 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
-    void shouldCreateRole() throws JsonProcessingException {
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+    void shouldCreateRole() {
+
         Role role = new Role(null,"mfine",
                 LocalDateTime.now(), "", 0, null, "admin");
         ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", role, String.class);

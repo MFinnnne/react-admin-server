@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -33,8 +32,7 @@ public class Role {
     /**
      * 角色建立时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
@@ -50,8 +48,7 @@ public class Role {
     /**
      * 授权时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime authTime;
 
     /**
