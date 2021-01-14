@@ -33,11 +33,18 @@ public class RoleController {
     }
 
     @ApiOperation(value = "创建角色")
-    @PostMapping("/createRole")
-    ResponseEntity<String> createRole(@RequestBody String name) {
+    @PostMapping("/createRoleByName")
+    ResponseEntity<String> createRoleByName(@RequestBody String name) {
         int flag = roleService.addRole(name);
         return ResponseEntity.ok().body(flag==1?"success":"fall");
 
+    }
+
+    @ApiOperation(value = "创建角色")
+    @PostMapping("/createRole")
+    ResponseEntity<String> createRole(@RequestBody Role role) {
+        int flag = roleService.insertSelective(role);
+        return ResponseEntity.ok().body(flag==1?"success":"fall");
     }
 
     @ExceptionHandler(Exception.class)

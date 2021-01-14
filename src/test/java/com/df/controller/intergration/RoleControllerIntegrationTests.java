@@ -1,7 +1,11 @@
 package com.df.controller.intergration;
 
 import com.df.pojo.RestResultList;
+import com.df.pojo.Role;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +16,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
@@ -31,9 +36,11 @@ public class RoleControllerIntegrationTests {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void init() {
-        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper();
     }
 
     @Autowired
@@ -47,9 +54,19 @@ public class RoleControllerIntegrationTests {
 
 
     @Test
-    public  void shouldCreateRole() {
+    public void shouldCreateRoleByName() {
         System.out.println(hello);
-        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", "mfine", String.class);
+        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRoleByName", "mfine", String.class);
+        assertEquals("success", responseEntity.getBody());
+    }
+
+    @Test
+    void shouldCreateRole() throws JsonProcessingException {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+        Role role = new Role(null,"mfine",
+                LocalDateTime.now(), "", 0, null, "admin");
+        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", role, String.class);
         assertEquals("success", responseEntity.getBody());
     }
 }
