@@ -36,7 +36,7 @@ public class RoleController {
     @PostMapping("/createRoleByName")
     ResponseEntity<String> createRoleByName(@RequestBody String name) {
         int flag = roleService.addRole(name);
-        return ResponseEntity.ok().body(flag==1?"success":"fall");
+        return ResponseEntity.ok().body(flag == 1 ? "success" : "fall");
 
     }
 
@@ -44,7 +44,15 @@ public class RoleController {
     @PostMapping("/createRole")
     ResponseEntity<String> createRole(@RequestBody Role role) {
         int flag = roleService.insertSelective(role);
-        return ResponseEntity.ok().body(flag==1?"success":"fall");
+        return ResponseEntity.ok().body(flag == 1 ? "success" : "fall");
+    }
+
+    @ApiOperation(value = "更新角色")
+    @PutMapping("/updateRole/{id}")
+    ResponseEntity<String> updateRol2e(@PathVariable("id") Integer id, @RequestBody Role role) {
+        int update = roleService.updateByPrimaryKey(role);
+        return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
+
     }
 
     @ExceptionHandler(Exception.class)

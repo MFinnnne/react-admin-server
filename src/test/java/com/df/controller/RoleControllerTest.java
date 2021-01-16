@@ -114,4 +114,18 @@ class RoleControllerTest {
             Assert.assertTrue(result.getResponse().getContentAsString().contains("success"));
         }));
     }
+
+
+    @Test
+    void updateRole() throws Exception {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+        Role role = new Role(1, "mfine",
+                LocalDateTime.now(), "", 0, null, "admin");
+        given(roleService.updateByPrimaryKey(BDDMockito.any())).willReturn(1);
+        ResultActions actions = this.mvc.perform(post("/api/role/updateRole").content(objectMapper.writeValueAsString(role))
+                .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
+        actions.andExpect(ResultMatcher.matchAll(result -> Assert.assertTrue(result.getResponse().getContentAsString().contains("success"))));
+    }
 }
