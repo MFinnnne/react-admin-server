@@ -68,6 +68,11 @@ public interface RoleMapper {
      */
     List<Role> findAll();
 
+    /**
+     * Count integer.
+     *
+     * @return the integer
+     */
     Integer count();
 
 

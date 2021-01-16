@@ -4,12 +4,15 @@ import com.df.pojo.RestResultList;
 import com.df.pojo.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -65,4 +68,14 @@ public class RoleControllerIntegrationTests {
         ResponseEntity<String> responseEntity = this.restTemplate.postForEntity("/api/role/createRole", role, String.class);
         assertEquals("success", responseEntity.getBody());
     }
+
+    @Test
+    void shouldUpdate(){
+
+        Role role = new Role(null,"mfine",
+                LocalDateTime.now(), "/home,/products", 0, LocalDateTime.now(), "admin");
+        ResponseEntity<String> entity= this.restTemplate.exchange("/api/role/updateRole/1", HttpMethod.PUT, new HttpEntity<>(role, null), String.class);
+        Assertions.assertEquals("success", entity.getBody());
+    }
+
 }

@@ -31,7 +31,11 @@ pagehelper:
   helper-dialect: mysql
 server:
   port: 5000
-
+logging:
+  level:
+    com:
+      df:
+        mapper: debug
 
 
 

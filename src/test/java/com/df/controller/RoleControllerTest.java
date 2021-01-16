@@ -28,8 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,7 +122,7 @@ class RoleControllerTest {
         Role role = new Role(1, "mfine",
                 LocalDateTime.now(), "", 0, null, "admin");
         given(roleService.updateByPrimaryKey(BDDMockito.any())).willReturn(1);
-        ResultActions actions = this.mvc.perform(post("/api/role/updateRole").content(objectMapper.writeValueAsString(role))
+        ResultActions actions = this.mvc.perform(put("/api/role/updateRole/1").content(objectMapper.writeValueAsString(role))
                 .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andExpect(ResultMatcher.matchAll(result -> Assert.assertTrue(result.getResponse().getContentAsString().contains("success"))));

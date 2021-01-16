@@ -1,5 +1,4 @@
 spring:
-
   mvc:
     hiddenmethod:
       filter:
