@@ -1,6 +1,8 @@
 package com.df.mapper;
+import com.df.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
-import com.df.pojo.User;import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 /**
  * The interface User mapper.
@@ -67,6 +69,7 @@ public interface UserMapper {
      */
     User findOneByName(@Param("name") String name);
 
+
     /**
      * Find one id by name integer.
      *
@@ -74,4 +77,13 @@ public interface UserMapper {
      * @return the integer
      */
     Integer findOneIdByName(@Param("name") String name);
+
+    /**
+     * Find all user
+     *
+     * @return user list
+     */
+    List<User> findAll();
+
+
 }
