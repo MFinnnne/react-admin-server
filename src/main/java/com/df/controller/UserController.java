@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author ：MFine
  * @description：TODO
@@ -33,6 +35,22 @@ public class UserController {
             return new RestResult<>(true, StatusCode.SUCCESS, "", findUser);
         }
         return new RestResult<>(false, StatusCode.FAILED);
+    }
+
+
+    @ApiOperation(value = "获取所有用户")
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.findAll();
+        return ResponseEntity.ok().body(users);
+    }
+
+    @ApiOperation(value = "更新用户")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Integer id,@RequestBody User user) {
+        user.setId(id);
+        int update = userService.updateByPrimaryKeySelective(user);
+        return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
     }
 
     @ExceptionHandler(NullPointerException.class)

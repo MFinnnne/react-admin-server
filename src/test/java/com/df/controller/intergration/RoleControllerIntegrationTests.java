@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,8 @@ public class RoleControllerIntegrationTests {
 
     @Test
     void shouldListAllRoles() {
-        ResponseEntity<RestResultList> forEntity = this.restTemplate.getForEntity("/api/role/getRoles", RestResultList.class);
+        ResponseEntity<RestResultList> forEntity = this.restTemplate.exchange("/api/role/getRoles", HttpMethod.GET, null, new ParameterizedTypeReference<RestResultList>() {
+        });
         Assert.assertEquals(0, (int) Objects.requireNonNull(forEntity.getBody()).getStatus());
     }
 
