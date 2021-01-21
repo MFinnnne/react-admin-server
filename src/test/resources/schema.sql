@@ -57,7 +57,7 @@ create table user
     phone       varchar(20) null,
     email       varchar(30) null,
     role_id     varchar(30) null,
-    create_time bigint      null,
+    create_time datetime     null,
     __v         int         null,
     constraint user_name_uindex
         unique (name)

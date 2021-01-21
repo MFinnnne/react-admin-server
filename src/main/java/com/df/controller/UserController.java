@@ -45,6 +45,14 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
+    @ApiOperation(value = "更新用户")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Integer id,@RequestBody User user) {
+        user.setId(id);
+        int update = userService.updateByPrimaryKeySelective(user);
+        return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
+    }
+
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<?> handleStorageFileNotFound(Exception exc) {
         return ResponseEntity.notFound().build();
