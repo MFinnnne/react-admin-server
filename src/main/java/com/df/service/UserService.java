@@ -97,15 +97,13 @@ public class UserService {
         return userMapper.findOneIdByName(name);
     }
 
-	public List<User> findAll(){
-		 return userMapper.findAll();
-	}
-
-
-
+    public List<User> findAll() {
+        return userMapper.findAll();
+    }
 
 
 }
+
 
 
 

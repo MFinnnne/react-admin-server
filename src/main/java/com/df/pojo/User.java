@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
  * @author MFine
  * @version 1.0
- * @date 2021/1/5 0:02
+ * @date 2021/1/21 22:17
  **/
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+public class User {
     private Integer id;
 
     private String password;
