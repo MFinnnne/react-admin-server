@@ -58,7 +58,5 @@ create table user
     email       varchar(30) null,
     role_id     varchar(30) null,
     create_time datetime     null,
-    __v         int         null,
-    constraint user_name_uindex
-        unique (name)
+    __v         int         null
 );

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -64,7 +65,7 @@ class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
-        actions.andDo(print()).andExpect(jsonPath("$.data.id",Matchers.equalTo(1)));
+        actions.andDo(print()).andExpect(jsonPath("$.data.id", Matchers.equalTo(1)));
     }
 
     @Test
@@ -100,5 +101,22 @@ class UserControllerTest {
         ResultActions actions = this.mvc.perform(put("/api/user/update/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(user)).accept(MediaType.APPLICATION_JSON));
         actions.andDo(print());
 
+    }
+
+    @Test
+    void deleteUser() throws Exception {
+        given(userService.deleteByPrimaryKey(BDDMockito.anyInt())).willReturn(1);
+        ResultActions actions = this.mvc.perform(delete("/api/user/delete/1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andExpect(result -> {
+            Assertions.assertTrue(result.getResponse().getContentAsString().contains("success"));
+        });
+    }
+
+    @Test
+    void addUser() throws Exception {
+        given(userService.insertSelective(BDDMockito.any())).willReturn(1);
+        User user = new User(null, "233333", "mfine", "21321321", "213213", "213112", LocalDateTime.now(), 0);
+        ResultActions actions = this.mvc.perform(post("/api/user/add").content(objectMapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        actions.andExpect(status().isOk()).andExpect(result -> Assertions.assertTrue(result.getResponse().getContentAsString().contains("success")));
     }
 }
