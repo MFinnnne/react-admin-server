@@ -40,4 +40,17 @@ public class UserControllerIntegrationTest {
         ResponseEntity<String> entity = this.restTemplate.exchange("/api/user/update/1", HttpMethod.PUT, new HttpEntity<>(user,null), String.class);
         Assertions.assertTrue(Objects.requireNonNull(entity.getBody()).contains("success"));
     }
+
+    @Test
+    void  shouldDeleteUser(){
+        ResponseEntity<String> entity = this.restTemplate.exchange("/api/user/delete/1", HttpMethod.DELETE, null, String.class);
+        Assertions.assertTrue(Objects.requireNonNull(entity.getBody()).contains("success"));
+    }
+
+    @Test
+    void shouldAdd(){
+        User user = new User(null, "admin", "admin", "13584574374", "lxemyf@gmail.com", null, LocalDateTime.now(), 0);
+        ResponseEntity<String> entity = this.restTemplate.postForEntity("/api/user/add",  user, String.class);
+        Assertions.assertTrue(Objects.requireNonNull(entity.getBody()).contains("success"));
+    }
 }
