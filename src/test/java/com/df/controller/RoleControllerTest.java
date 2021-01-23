@@ -127,4 +127,11 @@ class RoleControllerTest {
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
         actions.andExpect(ResultMatcher.matchAll(result -> Assert.assertTrue(result.getResponse().getContentAsString().contains("success"))));
     }
+
+
+    @Test
+    void getRoleById() throws Exception {
+        given(roleService.selectByPrimaryKey(BDDMockito.anyInt())).willReturn(new Role());
+        this.mvc.perform(get("/api/role/get/1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
 }
