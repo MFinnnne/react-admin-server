@@ -43,5 +43,5 @@ public class User {
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "不知道干啥好,可忽略", name = "v", example = "1")
-    private Integer v;;
+    private Integer v;
 }

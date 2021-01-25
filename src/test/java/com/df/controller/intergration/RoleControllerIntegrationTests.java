@@ -80,4 +80,10 @@ public class RoleControllerIntegrationTests {
         Assertions.assertEquals("success", entity.getBody());
     }
 
+    @Test
+    void shouldGetRoleById(){
+        ResponseEntity<Role> entity = this.restTemplate.getForEntity("/api/role/get/1", Role.class);
+        Assertions.assertNotNull(entity.getBody());
+    }
+
 }

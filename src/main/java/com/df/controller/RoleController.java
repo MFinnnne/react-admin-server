@@ -56,6 +56,13 @@ public class RoleController {
 
     }
 
+    @ApiOperation(value = "根据id找到角色")
+    @GetMapping("/get/{id}")
+    ResponseEntity<Role> getRoleById(@PathVariable Integer id){
+        Role role = roleService.selectByPrimaryKey(id);
+        return ResponseEntity.ok().body(role);
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<?> exceptionHandler(Exception e) {
         return ResponseEntity.notFound().build();
