@@ -44,7 +44,7 @@ class UserControllerTest {
     public void loginTestWithCorrectlyPWD() throws Exception {
 
         this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
+                .content(objectMapper.writeValueAsString(new User()))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("{\"flag\":true,\"status\":0,\"message\":\"\",\"data\":{\"id\":1,\"password\":null,\"name\":\"admin\"}}"))
@@ -55,7 +55,7 @@ class UserControllerTest {
     public void loginTestWithWrongPWD() throws Exception {
 
         this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null,"admin","admin")))
+                .content(objectMapper.writeValueAsString(new User()))
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.data.password",Matchers.nullValue()))
@@ -65,7 +65,7 @@ class UserControllerTest {
     @Test
     public void loginTestWithNullParam() throws Exception {
         this.mvc.perform(post("/api/user/login")
-                .content(objectMapper.writeValueAsString(new User(null, null, null))))
+                .content(objectMapper.writeValueAsString(new User())))
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
