@@ -1,11 +1,11 @@
 package com.df.service;
-import java.util.List;
-
 import com.df.mapper.UserMapper;
 import com.df.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author MFine
@@ -98,8 +98,19 @@ public class UserService {
         return userMapper.findOneIdByName(name);
     }
 
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
+    public List<User> findAll() {
+        return userMapper.findAll();
+    }
+
 
 }
+
+
 
 
 

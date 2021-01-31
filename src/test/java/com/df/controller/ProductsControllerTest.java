@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  **/
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
 @Transactional
 @Rollback
 class ProductsControllerTest {
@@ -55,8 +53,8 @@ class ProductsControllerTest {
     @BeforeEach
     public void generateTestData() {
         objectMapper = new ObjectMapper();
-        Integer count = productsService.countByIdGreaterThan(0);
-        if (count != 0) {
+        Integer count = productsService.count();
+        if (count > 0) {
             return;
         }
         productsService.insert(new Products(null, "", 1, UUID.randomUUID().toString().replace("-", ""), "小米8",
@@ -114,13 +112,13 @@ class ProductsControllerTest {
     @Test
     void searchByName() throws Exception {
         ResultActions actions = this.mockMvc.perform(get("/api/products/searchByName")
-                .param("name", "小米8")
+                .param("name", "小米9")
                 .param("pageNum", "1")
                 .param("pageSize", "3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));
         actions.andExpect(status().isOk()).andReturn().getResponse().setCharacterEncoding("UTF-8");
-        actions.andDo(print()).andExpect(jsonPath("$.list[0].name", Matchers.containsString("小米8")));
+        actions.andDo(print()).andExpect(jsonPath("$.list[0].name", Matchers.containsString("小米9")));
     }
 
     @Test
@@ -157,21 +155,21 @@ class ProductsControllerTest {
     }
 
     @Test
-    void addProduct(){
+    void addProduct() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
         headers.setAccept(mediaTypes);
-        ResponseEntity<RestResultTest> responseEntity = restTemplate.postForEntity("/api/products/addProduct",new Products(
-                null,"123.jpg",1,UUID.randomUUID().toString().replace("-", ""),"mate 40",
-                "华为手机","5999","0","5",null,0)
-                ,RestResultTest.class);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.postForEntity("/api/products/addProduct", new Products(
+                        null, "123.jpg", 1, UUID.randomUUID().toString().replace("-", ""), "mate 40",
+                        "华为手机", "5999", "0", "5", null, 0)
+                , RestResultTest.class);
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
     }
 
     @Test
-    void updateProduct(){
+    void updateProduct() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-TP-DeviceID", UUID.randomUUID().toString());
         Map<String, Products> param = new HashMap<>();
@@ -181,8 +179,8 @@ class ProductsControllerTest {
         Products products = new Products(2, "1.jpg", 1,
                 UUID.randomUUID().toString().replace("-", ""), "小米9",
                 "手机", "2390", "5", "0", "", 0);
-        param.put("products",products);
-        ResponseEntity<RestResultTest> responseEntity = restTemplate.exchange("/api/products/updateProduct/2",HttpMethod.PUT,new HttpEntity<>(products,headers),RestResultTest.class);
+        param.put("products", products);
+        ResponseEntity<RestResultTest> responseEntity = restTemplate.exchange("/api/products/updateProduct/2", HttpMethod.PUT, new HttpEntity<>(products, headers), RestResultTest.class);
         assertThat(Objects.requireNonNull(responseEntity.getBody()).getData()).isEqualTo(1);
     }
 }

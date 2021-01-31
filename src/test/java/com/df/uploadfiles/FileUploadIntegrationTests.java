@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,9 @@ import static org.mockito.BDDMockito.then;
  * @date 2020/11/5 23:26
  **/
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class FileUploadIntegrationTests {
+
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -45,8 +48,8 @@ public class FileUploadIntegrationTests {
 
         ClassPathResource resource = new ClassPathResource("testupload.txt", getClass());
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("file", resource);
-        ResponseEntity<String> response = this.restTemplate.postForEntity("/", map,
+        map.add("image", resource);
+        ResponseEntity<String> response = this.restTemplate.postForEntity("/uploadFile", map,
                 String.class);
 
         assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);

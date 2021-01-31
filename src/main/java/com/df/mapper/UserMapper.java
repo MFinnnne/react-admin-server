@@ -1,15 +1,14 @@
 package com.df.mapper;
 
-import com.df.pojo.User;import org.apache.ibatis.annotations.Param;
+import com.df.pojo.User;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 /**
  * @author MFine
  * @version 1.0
- * @date 2021/1/5 0:02
+ * @date 2021/1/21 23:13
  **/
 
 public interface UserMapper {
-
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
@@ -37,4 +36,11 @@ public interface UserMapper {
      * @return the integer
      */
     Integer findOneIdByName(@Param("name") String name);
+
+    /**
+     * Find all user
+     *
+     * @return user list
+     */
+    List<User> findAll();
 }

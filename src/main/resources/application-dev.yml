@@ -1,4 +1,5 @@
 spring:
+
   mvc:
     hiddenmethod:
       filter:
@@ -10,14 +11,14 @@ spring:
       max-request-size: 20MB
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: Asia/Shanghai
+    time-zone: GMT+8
   datasource:
     druid:
       #   数据源基本配置
       username: root
       password: 123456
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://123.57.208.169:3306/react_admin?useUnicode=true&characterEncoding=utf-8
+      url: jdbc:mysql://localhost:3306/react_admin?useUnicode=true&characterEncoding=utf-8
       #   数据源其他配置
       #初始化时建立物理连接的个数
       initial-size: 5
@@ -62,22 +63,19 @@ spring:
 
       # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
       web-stat-filter:
-        enabled: false
+        enabled: true
+        exclusions: "*.js,*.css,/druid/*"
+  application:
+    name: react-admin-server
 
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.df.pojo
 pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
   helper-dialect: mysql
-
-
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-  type-aliases-package: com.df.pojo
-
-logging:
-  level:
-   com.df.mapper: debug
 server:
   port: 5000
 

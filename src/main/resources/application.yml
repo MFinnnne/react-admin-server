@@ -10,7 +10,7 @@ spring:
       max-request-size: 20MB
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: Asia/Shanghai
+    time-zone: GMT+8
   datasource:
     druid:
       #   数据源基本配置

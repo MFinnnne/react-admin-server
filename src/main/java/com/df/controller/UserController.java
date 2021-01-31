@@ -8,10 +8,11 @@ import com.df.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author ：MFine
@@ -37,5 +38,41 @@ public class UserController {
         return new RestResult<>(false, StatusCode.FAILED);
     }
 
+    @ApiOperation(value = "获取所有用户")
+    @GetMapping("/getUsers")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.findAll();
+        return ResponseEntity.ok().body(users);
+    }
+
+    @ApiOperation(value = "更新用户")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user) {
+        user.setId(id);
+        int update = userService.updateByPrimaryKeySelective(user);
+        return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
+    }
+
+    @ApiOperation(value = "删除用户")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        int delete = userService.deleteByPrimaryKey(id);
+        return ResponseEntity.ok().body(delete == 1 ? "success" : "fall");
+    }
+
+    @ApiOperation(value = "添加用户")
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        if (user.getCreateTime() == null) {
+            user.setCreateTime(LocalDateTime.now());
+        }
+        int selective = userService.insertSelective(user);
+        return ResponseEntity.ok().body(selective == 1 ? "success" : "fall");
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(Exception exc) {
+        return ResponseEntity.notFound().build();
+    }
 
 }

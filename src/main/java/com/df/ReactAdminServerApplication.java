@@ -18,4 +18,5 @@ public class ReactAdminServerApplication {
         SpringApplication.run(ReactAdminServerApplication.class, args);
     }
 
+
 }
