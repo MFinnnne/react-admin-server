@@ -1,10 +1,15 @@
 package com.df.service;
 import com.df.mapper.UserMapper;
 import com.df.pojo.User;
+import com.df.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,6 +51,7 @@ public class UserService {
      * @return the int
      */
     public int insertSelective(User record) {
+        record.setPassword(MD5Util.crypt(record.getPassword()));
         return userMapper.insertSelective(record);
     }
 
@@ -68,6 +74,7 @@ public class UserService {
      * @return the int
      */
     public int updateByPrimaryKeySelective(User record) {
+        record.setPassword(MD5Util.crypt(record.getPassword()));
         return userMapper.updateByPrimaryKeySelective(record);
     }
 

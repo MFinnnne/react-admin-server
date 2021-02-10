@@ -5,6 +5,7 @@ import com.df.config.StatusCode;
 import com.df.pojo.RestResult;
 import com.df.pojo.User;
 import com.df.service.UserService;
+import com.df.utils.MD5Util;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,13 @@ public class UserController {
     @ApiOperation(value = "用户登录", notes = "status为0则登录成功，id参数可以为空")
     @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = {"application/json"})
     public RestResult<User> login(@RequestBody User user) {
+        String pw = MD5Util.crypt(user.getPassword());
         User findUser = userService.findOneByName(user.getName());
-        if (findUser.getPassword().equals(user.getPassword())) {
+        if (pw.equals(findUser.getPassword())) {
             return new RestResult<>(true, StatusCode.SUCCESS, "", findUser);
         }
         return new RestResult<>(false, StatusCode.FAILED);
+
     }
 
     @ApiOperation(value = "获取所有用户")
