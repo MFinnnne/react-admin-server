@@ -32,7 +32,7 @@ class StorageServiceImplTest {
 
     @BeforeEach
     void init() {
-        properties.setLocation("D:\\study road\\React\\file\\files" + Math.abs(new Random().nextLong()));
+        properties.setLocation("D:\\Learn react\\files" + Math.abs(new Random().nextLong()));
         service = new StorageServiceImpl(properties);
         service.init();
     }
