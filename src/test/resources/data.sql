@@ -19,5 +19,5 @@ commit;
 -- user
 begin;
 insert into `user` (`password`, `name`, phone, email, role_id, create_time, __v)
-values ('admin', 'admin', '13584574374', 'lxemyf@gmail.com', '1', null, 0);
+values ('21232f297a57a5a743894a0e4a801fc3', 'admin', '13584574374', 'lxemyf@gmail.com', '1', null, 0);
 commit;

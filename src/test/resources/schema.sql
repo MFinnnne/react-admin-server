@@ -52,7 +52,7 @@ create table user
 (
     id          int auto_increment
         primary key,
-    password    varchar(20) null,
+    password    varchar(40) null,
     name        varchar(20) null,
     phone       varchar(20) null,
     email       varchar(30) null,
