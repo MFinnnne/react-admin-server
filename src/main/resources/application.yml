@@ -11,6 +11,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  redis:
+    database: 0
+    host: 123.57.208.169
+    port: 6379
+    password: mfine
+    timeout: 6000
   datasource:
     druid:
       #   数据源基本配置
