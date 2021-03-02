@@ -23,7 +23,7 @@ spring:
       username: root
       password: 123456
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/react_admin?useUnicode=true&characterEncoding=utf-8
+      url: jdbc:mysql://123.57.208.169:3306/react_admin?useUnicode=true&characterEncoding=utf-8
       #   数据源其他配置
       #初始化时建立物理连接的个数
       initial-size: 5
