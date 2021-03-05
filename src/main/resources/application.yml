@@ -76,10 +76,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:5001
-        instance:
-          prefer-ip: true
-        api-path: /instances
+        url: http://localhost:5000
 
 
 #    client:
