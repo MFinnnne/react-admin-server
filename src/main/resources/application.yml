@@ -67,13 +67,23 @@ spring:
         login-username: admin
         allow: ""
 
-      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
-      web-stat-filter:
-        enabled: true
-        exclusions: "*.js,*.css,/druid/*"
+#      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+#      web-stat-filter:
+#        enabled: false
+#        exclusions: "*.js,*.css,/druid/*"
   application:
-    name: react-admin-server
+    name:  web-admin
+  boot:
+    admin:
+      client:
+        url: http://localhost:5001
+        instance:
+          prefer-ip: true
+        api-path: /instances
 
+
+#    client:
+#      url: http://localhost:5000/application
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: com.df.pojo
@@ -85,11 +95,21 @@ pagehelper:
 server:
   port: 5000
 management:
+  security:
+    enabled: false
+
   endpoints:
     enabled-by-default: true
     web:
       exposure:
         include: '*'
-
-
-
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+    info:
+      enabled: true
+    liquibase:
+      enabled: true
+    metrics:
+      enabled: true

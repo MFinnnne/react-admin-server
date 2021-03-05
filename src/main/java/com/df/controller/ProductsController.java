@@ -45,6 +45,7 @@ public class ProductsController {
     public ResponseEntity<PageInfo<Products>> searchByDesc(@PathVariable String desc, @PathVariable int pageNum, @PathVariable int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<Products> pageInfo = PageInfo.of(productsService.findAllByDescLike(desc));
+        System.out.println();
         return ResponseEntity.ok().body(pageInfo);
     }
 
