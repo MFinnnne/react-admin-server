@@ -67,10 +67,10 @@ spring:
         login-username: admin
         allow: ""
 
-#      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
-#      web-stat-filter:
-#        enabled: false
-#        exclusions: "*.js,*.css,/druid/*"
+  #      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter:
+        enabled: false
+        exclusions: "*.js,*.css,/druid/*"
   application:
     name:  web-admin
   boot:
@@ -92,9 +92,6 @@ pagehelper:
 server:
   port: 5000
 management:
-  security:
-    enabled: false
-
   endpoints:
     enabled-by-default: true
     web:
