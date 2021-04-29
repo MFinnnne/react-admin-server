@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * @description：TODO
  * @date ：2021/2/11 0:56
  */
+
 public class MD5Util {
 
     public static String crypt(String str) {
