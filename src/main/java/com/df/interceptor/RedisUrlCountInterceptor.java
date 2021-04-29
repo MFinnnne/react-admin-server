@@ -23,7 +23,6 @@ public class RedisUrlCountInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         stringRedisTemplate.opsForValue().increment(uri);
-        System.out.println("哈哈哈哈啊哈");
         return true;
     }
 }

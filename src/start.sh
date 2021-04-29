@@ -27,5 +27,6 @@ funWithReturn(){
     read -r bNum;
     return "$((aNum+bNum))"
 }
+
 funWithReturn
 echo "result is $?"
