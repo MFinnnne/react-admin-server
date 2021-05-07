@@ -1,5 +1,6 @@
 package com.df.controller;
 
+import com.df.service.RedisTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,22 @@ public class RedisTestController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private RedisTestService redisTestService;
+
     @GetMapping("/getName")
-    public String testRedis(){
-        redisTemplate.opsForValue().set("name","lucy");
+    public String testRedis() {
+        redisTemplate.opsForValue().set("name", "lucy");
         String name = redisTemplate.opsForValue().get("name");
         return name;
+    }
+
+    @GetMapping("secKill")
+    public String secKill(String uid, String prodId) {
+        boolean kill = redisTestService.doSecKill(uid, prodId);
+        if (kill) {
+            return "秒杀成功";
+        }
+        return "秒杀失败";
     }
 }
