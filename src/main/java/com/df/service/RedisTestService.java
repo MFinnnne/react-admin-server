@@ -1,6 +1,9 @@
 package com.df.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,9 @@ public class RedisTestService {
         String storeKey = "sk:" + prodId + ":qt";
         // 秒杀成功用户key
         String userKey = "sk:" + prodId + ":user";
+        // 监视库存
+        redisTemplate.watch(storeKey);
+
         //4 获取库存,如果库存null，秒杀还没有开始
         String store = redisTemplate.opsForValue().get(storeKey);
         if (store == null) {
@@ -42,11 +48,22 @@ public class RedisTestService {
         if (Integer.parseInt(store) <= 0) {
             System.out.println("秒杀结束了");
         }
-        // 秒杀的过程
-        // 成功 库存减一
-        redisTemplate.opsForValue().decrement(storeKey);
-        // 把秒杀成功用户添加到清单里面
-        redisTemplate.opsForSet().add(userKey, uid);
+
+        SessionCallback<Object> sessionCallback = new SessionCallback<Object>() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException {
+                operations.multi();
+                // 秒杀的过程
+                // 成功 库存减1
+                StringRedisTemplate redisTemplate = (StringRedisTemplate) operations;
+                redisTemplate.opsForValue().decrement(storeKey);
+                // 把秒杀成功用户添加到清单里面
+                redisTemplate.opsForSet().add(userKey, uid);
+                return redisTemplate.exec();
+            }
+
+        };
+        redisTemplate.execute(sessionCallback);
         System.out.println("秒杀成功");
         return true;
     }
