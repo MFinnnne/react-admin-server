@@ -19,10 +19,10 @@ spring:
     timeout: 6000
     lettuce:
       pool:
-        min-idle: 5
-        max-idle: 10
-        max-active: 8
-        max-wait: 1000ms
+        min-idle: 30
+        max-idle: 100
+        max-active: 200
+        max-wait: 10000ms
 
   datasource:
     druid:

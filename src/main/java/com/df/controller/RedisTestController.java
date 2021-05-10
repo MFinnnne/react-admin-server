@@ -24,11 +24,10 @@ public class RedisTestController {
     @GetMapping("/getName")
     public String testRedis() {
         redisTemplate.opsForValue().set("name", "lucy");
-        String name = redisTemplate.opsForValue().get("name");
-        return name;
+        return redisTemplate.opsForValue().get("name");
     }
 
-    @GetMapping("secKill")
+    @GetMapping("/secKill")
     public String secKill(String uid, String prodId) {
         boolean kill = redisTestService.doSecKill(uid, prodId);
         if (kill) {
