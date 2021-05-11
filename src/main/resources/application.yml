@@ -16,7 +16,7 @@ spring:
     host: 159.75.128.32
     port: 6379
     password: mfinetoo
-    timeout: 6000
+    timeout: 100000
     lettuce:
       pool:
         min-idle: 30
