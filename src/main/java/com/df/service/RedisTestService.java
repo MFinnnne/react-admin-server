@@ -7,6 +7,8 @@ import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author MFine
  * @version 1.0
@@ -23,48 +25,47 @@ public class RedisTestService {
         if (uid == null || prodId == null) {
             return false;
         }
-        // 拼接key
-        // 库存key
         String storeKey = "sk:" + prodId + ":qt";
         // 秒杀成功用户key
-        String userKey = "sk:" + prodId + ":user";
-        // 监视库存
-        redisTemplate.watch(storeKey);
+        String userKey = "sk:" + uid + ":user";
 
-        //4 获取库存,如果库存null，秒杀还没有开始
         String store = redisTemplate.opsForValue().get(storeKey);
         if (store == null) {
             System.out.println("秒杀还未开始");
-        }
-        // 判断用户是否重复秒杀操作
-        Boolean sismember = redisTemplate.opsForSet().isMember(userKey, uid);
-
-        if (sismember != null && sismember) {
-            System.out.println("已经秒杀成功，不能重复秒杀");
             return false;
         }
-        // 判断如果商品的数量，库存的数量小于1 表示商品没了 秒杀结束
-        assert store != null;
-        if (Integer.parseInt(store) <= 0) {
-            System.out.println("秒杀结束了");
+        if (Integer.parseInt(store) == 0){
+            System.out.println("库存没了 秒杀结束");
+            return false;
         }
-
-        SessionCallback<Object> sessionCallback = new SessionCallback<Object>() {
+        // 判断用户是否重复秒杀操作
+        Boolean member = redisTemplate.opsForSet().isMember(userKey, uid);
+        if (member) {
+            System.out.println("已经成功抢到 无法重复秒杀");
+            return false;
+        }
+        List<Object> execute = redisTemplate.execute(new SessionCallback<List<Object>>() {
             @Override
-            public Object execute(RedisOperations operations) throws DataAccessException {
+            public List<Object> execute(RedisOperations operations) throws DataAccessException {
+
+                // 监视库存
+                operations.watch(storeKey);
                 operations.multi();
+                //4 获取库存,如果库存null，秒杀还没有开始
+
                 // 秒杀的过程
                 // 成功 库存减1
-                StringRedisTemplate redisTemplate = (StringRedisTemplate) operations;
-                redisTemplate.opsForValue().decrement(storeKey);
+                operations.opsForValue().decrement(storeKey);
                 // 把秒杀成功用户添加到清单里面
-                redisTemplate.opsForSet().add(userKey, uid);
-                return redisTemplate.exec();
+                operations.opsForSet().add(userKey, uid);
+                return operations.exec();
             }
-
-        };
-        redisTemplate.execute(sessionCallback);
-        System.out.println("秒杀成功");
-        return true;
+        });
+        if (execute == null || execute.size() == 0) {
+            System.out.println(userKey + " 秒杀失败");
+            return false;
+        }
+        System.out.println(userKey + " 秒杀成功");
+        return false;
     }
 }

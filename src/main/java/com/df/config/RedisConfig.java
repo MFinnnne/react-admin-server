@@ -17,6 +17,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.Duration;
 
@@ -26,7 +27,7 @@ import java.time.Duration;
  * @date 2021/4/29 23:12
  **/
 @Configuration
-
+@EnableTransactionManagement
 public class RedisConfig extends CachingConfigurerSupport {
 
     @Bean
@@ -47,6 +48,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
         return template;
     }
+
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
