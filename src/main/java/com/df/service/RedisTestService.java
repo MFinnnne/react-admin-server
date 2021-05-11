@@ -29,30 +29,28 @@ public class RedisTestService {
         // 秒杀成功用户key
         String userKey = "sk:" + uid + ":user";
 
-        String store = redisTemplate.opsForValue().get(storeKey);
-        if (store == null) {
-            System.out.println("秒杀还未开始");
-            return false;
-        }
-        if (Integer.parseInt(store) == 0){
-            System.out.println("库存没了 秒杀结束");
-            return false;
-        }
-        // 判断用户是否重复秒杀操作
-        Boolean member = redisTemplate.opsForSet().isMember(userKey, uid);
-        if (member) {
-            System.out.println("已经成功抢到 无法重复秒杀");
-            return false;
-        }
+
         List<Object> execute = redisTemplate.execute(new SessionCallback<List<Object>>() {
             @Override
             public List<Object> execute(RedisOperations operations) throws DataAccessException {
-
+                operations.watch(storeKey);
+                String store = (String) operations.opsForValue().get(storeKey);
+                if (store == null) {
+                    System.out.println("秒杀还未开始");
+                    return null;
+                }
+                if (Integer.parseInt(store) <= 0) {
+                    System.out.println("库存没了 秒杀结束");
+                    return null;
+                }
+                // 判断用户是否重复秒杀操作
+                Boolean member = operations.opsForSet().isMember(userKey, uid);
+                if (member) {
+                    System.out.println("已经成功抢到 无法重复秒杀");
+                }
                 // 监视库存
                 operations.watch(storeKey);
                 operations.multi();
-                //4 获取库存,如果库存null，秒杀还没有开始
-
                 // 秒杀的过程
                 // 成功 库存减1
                 operations.opsForValue().decrement(storeKey);
