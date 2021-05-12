@@ -29,7 +29,7 @@ public class RedisTestController {
 
     @GetMapping("/secKill")
     public String secKill(String uid, String prodId) {
-        boolean kill = redisTestService.doSecKill(uid, prodId);
+        boolean kill = redisTestService.doSecKill2(uid, prodId);
         if (kill) {
             return "秒杀成功";
         }
