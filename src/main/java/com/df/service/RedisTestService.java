@@ -1,12 +1,16 @@
 package com.df.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,6 +68,37 @@ public class RedisTestService {
             return false;
         }
         System.out.println(userKey + " 秒杀成功");
+        return false;
+    }
+
+
+    public boolean doSecKill2(String uid, String prodId) {
+
+        // uid和prod id 非空判断
+        if (uid == null || prodId == null) {
+            return false;
+        }
+        String storeKey = "sk:" + prodId + ":qt";
+        // 秒杀成功用户key
+        String userKey = "sk:" + uid + ":user";
+
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("SecKill.lua")));
+        redisScript.setResultType(Long.class);
+        List<String> list = new ArrayList<>();
+        list.add(storeKey);
+        list.add(userKey);
+        Long res = redisTemplate.execute(redisScript, list);
+        if (res == 0L) {
+            System.out.println("已抢空！！");
+        } else if (res == 1L) {
+            System.out.println("抢购成功");
+            return true;
+        } else if (res == 2L) {
+            System.out.println("该用户已经抢过");
+        } else {
+            System.out.println("抢购异常！！！！");
+        }
         return false;
     }
 }
