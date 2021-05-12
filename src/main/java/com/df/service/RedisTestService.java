@@ -78,16 +78,12 @@ public class RedisTestService {
         if (uid == null || prodId == null) {
             return false;
         }
-        String storeKey = "sk:" + prodId + ":qt";
-        // 秒杀成功用户key
-        String userKey = "sk:" + uid + ":user";
-
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("SecKill.lua")));
         redisScript.setResultType(Long.class);
         List<String> list = new ArrayList<>();
-        list.add(storeKey);
-        list.add(userKey);
+        list.add(prodId);
+        list.add(uid);
         Long res = redisTemplate.execute(redisScript, list);
         if (res == 0L) {
             System.out.println("已抢空！！");
