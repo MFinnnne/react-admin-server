@@ -19,4 +19,16 @@ public class MD5Test {
         byte[] digest = md5.digest(pw.getBytes());
         System.out.println(digest);
     }
+
+    @Test
+    public void t1() {
+        System.out.println("john"=="john");
+        System.out.println("john".equals(new String("john")));
+
+        int a;
+        a = 6;
+        System.out.println(a);
+        System.out.println(a++);
+        System.out.println(++a);
+    }
 }

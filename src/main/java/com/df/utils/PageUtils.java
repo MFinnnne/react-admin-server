@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
  * @version 1.0
  * @date 2020/11/19 23:44
  **/
+
 public class PageUtils {
     /**
      * 将分页信息封装到统一的接口

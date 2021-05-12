@@ -1,19 +1,16 @@
 package com.df.service;
 
-import java.util.List;
-
+import com.df.mapper.CategoryMapper;
+import com.df.pojo.Category;
 import com.df.utils.PageRequest;
 import com.df.utils.PageResult;
 import com.df.utils.PageUtils;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import com.df.mapper.CategoryMapper;
-import com.df.pojo.Category;
+import java.util.List;
 
 /**
  * @author MFine
@@ -57,7 +54,7 @@ public class CategoryService {
      * @param record the record
      * @return the int
      */
-    public int insertfSelective(Category record) {
+    public int insertSelective(Category record) {
         return categoryMapper.insertSelective(record);
     }
 
