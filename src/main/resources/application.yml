@@ -21,9 +21,9 @@ spring:
         max-idle: 100
         max-active: 200
         max-wait: 10000ms
-    sentinel:
-      master: mymaster
-      nodes: 159.75.128.32:26379
+    cluster:
+      nodes: 159.75.128.32:6379, 159.75.128.32:6380,159.75.128.32:6381,159.75.128.32:6389, 159.75.128.32:6390, 159.75.128.32:6391
+      max-redirects: 3
 
   datasource:
     druid:
