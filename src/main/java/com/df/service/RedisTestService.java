@@ -1,5 +1,6 @@
 package com.df.service;
 
+import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
@@ -96,5 +97,25 @@ public class RedisTestService {
             System.out.println("抢购异常！！！！");
         }
         return false;
+    }
+
+    public void testLock() {
+        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", "111");
+        if (lock != null && lock) {
+            String value = this.redisTemplate.opsForValue().get("num");
+            if (StringUtil.isNullOrEmpty(value)) {
+                return;
+            }
+            int num = Integer.parseInt(value);
+            this.redisTemplate.opsForValue().set("num", ++num + "");
+            this.redisTemplate.delete(("lock"));
+        } else {
+            try {
+                Thread.sleep(1000);
+                testLock();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
