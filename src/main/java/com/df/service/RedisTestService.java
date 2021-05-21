@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author MFine
@@ -100,18 +101,20 @@ public class RedisTestService {
     }
 
     public void testLock() {
-        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", "111");
+
+        Boolean lock = this.redisTemplate.opsForValue().setIfAbsent("lock", "111", 3, TimeUnit.SECONDS);
         if (lock != null && lock) {
             String value = this.redisTemplate.opsForValue().get("num");
             if (StringUtil.isNullOrEmpty(value)) {
+                this.redisTemplate.opsForValue().set("num", "0");
+                this.redisTemplate.delete(("lock"));
                 return;
             }
             int num = Integer.parseInt(value);
             this.redisTemplate.opsForValue().set("num", ++num + "");
-            this.redisTemplate.delete(("lock"));
         } else {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 testLock();
             } catch (InterruptedException e) {
                 e.printStackTrace();
