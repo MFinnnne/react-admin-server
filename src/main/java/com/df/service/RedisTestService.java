@@ -12,7 +12,9 @@ import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +24,9 @@ import java.util.concurrent.TimeUnit;
  **/
 @Service
 public class RedisTestService {
+
+    private int count = 0;
+
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -100,18 +105,31 @@ public class RedisTestService {
         return false;
     }
 
+
     public void testLock() {
 
-        Boolean lock = this.redisTemplate.opsForValue().setIfAbsent("lock", "111", 3, TimeUnit.SECONDS);
+        //1 声明一个uuid ,将做为一个value 放入我们的key所对应的值中
+        String uuid = UUID.randomUUID().toString();
+        //2 定义一个锁：lua 脚本可以使用同一把锁，来实现删除！
+        String skuId = "25";
+        String locKey = "lock:" + skuId;
+
+        Boolean lock = this.redisTemplate.opsForValue().setIfAbsent(locKey, uuid, 3, TimeUnit.SECONDS);
         if (lock != null && lock) {
             String value = this.redisTemplate.opsForValue().get("num");
+            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+            DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+            redisScript.setScriptText(script);
+            redisScript.setResultType(Long.class);
             if (StringUtil.isNullOrEmpty(value)) {
                 this.redisTemplate.opsForValue().set("num", "0");
-                this.redisTemplate.delete(("lock"));
+                redisTemplate.execute(redisScript, Arrays.asList(locKey), uuid);
                 return;
             }
             int num = Integer.parseInt(value);
             this.redisTemplate.opsForValue().set("num", ++num + "");
+            System.out.println(count++);
+            redisTemplate.execute(redisScript, Arrays.asList(locKey), uuid);
         } else {
             try {
                 Thread.sleep(100);
