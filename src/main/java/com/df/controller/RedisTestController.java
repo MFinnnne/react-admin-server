@@ -35,4 +35,9 @@ public class RedisTestController {
         }
         return "秒杀失败";
     }
+
+    @GetMapping("/testLock")
+    public void testLock() {
+        this.redisTestService.testLock();
+    }
 }
