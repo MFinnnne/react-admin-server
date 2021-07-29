@@ -29,7 +29,7 @@ spring:
     druid:
       #   数据源基本配置
       username: root
-      password: mfinetoo
+      password: mnotfine
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://159.75.128.32:3306/react_admin?useUnicode=true&characterEncoding=utf-8
       #   数据源其他配置
