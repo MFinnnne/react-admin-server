@@ -25,9 +25,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisTestService {
 
-    private int count = 0;
-
-
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -128,7 +125,6 @@ public class RedisTestService {
             }
             int num = Integer.parseInt(value);
             this.redisTemplate.opsForValue().set("num", ++num + "");
-            System.out.println(count++);
             redisTemplate.execute(redisScript, Arrays.asList(locKey), uuid);
         } else {
             try {

@@ -13,10 +13,17 @@ spring:
     time-zone: GMT+8
   redis:
     database: 0
-    host: 123.57.208.169
-    port: 6379
-    password: mfine
-    timeout: 6000
+    password: mfinetoo
+    timeout: 10000
+    lettuce:
+      pool:
+        min-idle: 30
+        max-idle: 100
+        max-active: 1000
+        max-wait: 10000ms
+    cluster:
+      nodes: 159.75.128.32:6379, 159.75.128.32:6380,159.75.128.32:6381,159.75.128.32:6389, 159.75.128.32:6390, 159.75.128.32:6391
+      max-redirects: 3
   datasource:
     username: mfine
     password: 123456
