@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class KafkaConsumer {
     @KafkaListener(topics = KafkaConstant.TOPIC, groupId = "kafka-springboot-001")
     public void consumer(ConsumerRecord<String, String> record, Acknowledgment ack) throws InterruptedException {
-        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "接收到kafka消息,partition:" + record.partition() + ",offset:" + record.offset() + "value:" + record.value());
+        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "接收到kafka消息,partition:" + record.partition() + ",offset:" + record.offset() + "value1:" + record.value());
         TimeUnit.SECONDS.sleep(1);
         ack.acknowledge();
     }
