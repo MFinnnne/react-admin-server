@@ -49,7 +49,7 @@ public class RoleController {
 
     @ApiOperation(value = "更新角色")
     @PutMapping("/updateRole/{id}")
-    ResponseEntity<String> updateRol2e(@PathVariable("id") Integer id, @RequestBody Role role) {
+    ResponseEntity<String> updateRole(@PathVariable("id") Integer id, @RequestBody Role role) {
         role.setId(id);
         int update = roleService.updateByPrimaryKey(role);
         return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
