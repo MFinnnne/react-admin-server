@@ -52,6 +52,9 @@ public class UserController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Integer id, @RequestBody User user) {
         user.setId(id);
+        if (user.getName().equals("admin")) {
+            return ResponseEntity.status(301).body("admin用户不允许修改");
+        }
         int update = userService.updateByPrimaryKeySelective(user);
         return ResponseEntity.ok().body(update == 1 ? "success" : "fall");
     }
@@ -59,6 +62,9 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        if (id == 1) {
+            return ResponseEntity.status(301).body("admin用户不允许删除");
+        }
         int delete = userService.deleteByPrimaryKey(id);
         return ResponseEntity.ok().body(delete == 1 ? "success" : "fall");
     }
@@ -66,6 +72,9 @@ public class UserController {
     @ApiOperation(value = "添加用户")
     @PostMapping("/add")
     public ResponseEntity<String> addUser(@RequestBody User user) {
+        if (user.getName().equals("admin")) {
+            return ResponseEntity.status(301).body("admin用户不允许重复添加");
+        }
         if (user.getCreateTime() == null) {
             user.setCreateTime(LocalDateTime.now());
         }

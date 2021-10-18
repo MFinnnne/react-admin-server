@@ -1,4 +1,23 @@
 spring:
+  kafka:
+    bootstrap-servers: 192.168.0.103:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: 1
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+    consumer:
+      enable-auto-commit: false
+      auto-commit-interval: 100
+      auto-offset-reset: earliest
+      max-poll-records: 500
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: manual
+      poll-timeout: 5005
   mvc:
     hiddenmethod:
       filter:
@@ -29,7 +48,7 @@ spring:
     druid:
       #   数据源基本配置
       username: root
-      password: mfinetoo
+      password: mnotfine
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://159.75.128.32:3306/react_admin?useUnicode=true&characterEncoding=utf-8
       #   数据源其他配置

@@ -150,7 +150,6 @@
             <artifactId>cucumber-core</artifactId>
             <version>6.9.0</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
