@@ -1,23 +1,4 @@
 spring:
-  kafka:
-    bootstrap-servers: 192.168.0.103:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: 1
-      retries: 0
-      batch-size: 16384
-      buffer-memory: 33554432
-    consumer:
-      enable-auto-commit: false
-      auto-commit-interval: 100
-      auto-offset-reset: earliest
-      max-poll-records: 500
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    listener:
-      ack-mode: manual
-      poll-timeout: 5005
   mvc:
     hiddenmethod:
       filter:
@@ -33,6 +14,8 @@ spring:
   redis:
     database: 0
     password: mfinetoo
+    host: 124.222.167.196
+    port: 6379
     timeout: 10000
     lettuce:
       pool:
@@ -40,9 +23,6 @@ spring:
         max-idle: 100
         max-active: 1000
         max-wait: 10000ms
-    cluster:
-      nodes: 159.75.128.32:6379, 159.75.128.32:6380,159.75.128.32:6381,159.75.128.32:6389, 159.75.128.32:6390, 159.75.128.32:6391
-      max-redirects: 3
 
   datasource:
     druid:
@@ -50,7 +30,7 @@ spring:
       username: root
       password: mnotfine
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://159.75.128.32:3306/react_admin?useUnicode=true&characterEncoding=utf-8
+      url: jdbc:mysql://124.222.167.196:3306/react_admin?useUnicode=true&characterEncoding=utf-8
       #   数据源其他配置
       #初始化时建立物理连接的个数
       initial-size: 5
